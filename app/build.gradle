@@ -1,102 +1,116 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'net.saliman.cobertura'
 apply plugin: 'org.sonarqube'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+  compileSdkVersion 27
+  buildToolsVersion "27.0.1"
 
-    defaultConfig {
-        applicationId "com.chusobadenas.boilerplatecleanarchitecture"
-        minSdkVersion 16
-        targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
-    }
+  defaultConfig {
+    applicationId "com.chusobadenas.boilerplatecleanarchitecture"
+    minSdkVersion 19
+    targetSdkVersion 27
+    versionCode 2
+    versionName "1.1"
+  }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
+  buildTypes {
+    release {
+      minifyEnabled true
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
+  }
 
-    lintOptions {
-        warning 'InvalidPackage'
+  lintOptions {
+    warning 'InvalidPackage'
+  }
+
+  testOptions {
+    unitTests {
+      includeAndroidResources = true
     }
+  }
 }
 
 dependencies {
-    final PLAY_SERVICES_VERSION = '10.0.1'
-    final SUPPORT_LIBRARY_VERSION = '25.1.0'
-    final RETROFIT_VERSION = '2.1.0'
-    final PICASSO_VERSION = '2.5.2'
-    final RXJAVA_VERSION = '1.2.2'
-    final RXANDROID_VERSION = '1.2.1'
-    final BUTTERKNIFE_VERSION = '8.4.0'
-    final DAGGER_VERSION = '2.8'
-    final JSR250_VERSION = '1.0'
-    final JUNIT_VERSION = '4.12'
-    final EASYMOCK_VERSION = '3.4'
-    final MOCKITO_VERSION = '1.10.19'
-    final POWERMOCK_VERSION = '1.6.5'
+  final BUTTERKNIFE_VERSION = '8.8.1'
+  final DAGGER_VERSION = '2.12'
+  final EASYMOCK_VERSION = '3.5'
+  final GLIDE_VERSION = '4.3.1'
+  final JSR250_VERSION = '1.0'
+  final JUNIT_VERSION = '4.12'
+  final MOCKITO_VERSION = '1.10.19'
+  final OKHTTP3_VERSION = '3.9.0'
+  final PLAY_SERVICES_VERSION = '11.6.2'
+  final POWERMOCK_VERSION = '1.6.5'
+  final RETROFIT_VERSION = '2.3.0'
+  final ROBOLECTRIC_VERSION = '3.5.1'
+  final ROBOLECTRIC_SHADOWS_VERSION = '3.4-rc2'
+  final RXANDROID_VERSION = '2.0.1'
+  final RXJAVA_VERSION = '2.1.7'
+  final TIMBER_VERSION = '4.6.0'
+  final SUPPORT_LIBRARY_VERSION = '27.0.1'
 
-    compile "com.google.android.gms:play-services-gcm:$PLAY_SERVICES_VERSION"
-    compile "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:recyclerview-v7:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:cardview-v7:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:support-annotations:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:percent:$SUPPORT_LIBRARY_VERSION"
-    compile "com.android.support:design:$SUPPORT_LIBRARY_VERSION"
+  implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
-    compile "com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION"
-    compile "com.squareup.retrofit2:adapter-rxjava:$RETROFIT_VERSION"
-    compile "com.squareup.picasso:picasso:$PICASSO_VERSION"
-    compile "com.jakewharton:butterknife:$BUTTERKNIFE_VERSION"
-    apt "com.jakewharton:butterknife-compiler:$BUTTERKNIFE_VERSION"
+  annotationProcessor "com.github.bumptech.glide:compiler:$GLIDE_VERSION"
+  annotationProcessor "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
+  annotationProcessor "com.jakewharton:butterknife-compiler:$BUTTERKNIFE_VERSION"
 
-    compile "io.reactivex:rxjava:$RXJAVA_VERSION"
-    compile "io.reactivex:rxandroid:$RXANDROID_VERSION"
+  implementation "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"
+  implementation "com.android.support:recyclerview-v7:$SUPPORT_LIBRARY_VERSION"
+  implementation "com.android.support:cardview-v7:$SUPPORT_LIBRARY_VERSION"
+  implementation "com.android.support:support-annotations:$SUPPORT_LIBRARY_VERSION"
+  implementation "com.android.support:percent:$SUPPORT_LIBRARY_VERSION"
+  implementation "com.android.support:design:$SUPPORT_LIBRARY_VERSION"
+  implementation "com.github.bumptech.glide:glide:$GLIDE_VERSION"
+  implementation "com.google.android.gms:play-services-gcm:$PLAY_SERVICES_VERSION"
+  implementation "com.google.dagger:dagger:$DAGGER_VERSION"
+  implementation "com.jakewharton:butterknife:$BUTTERKNIFE_VERSION"
+  implementation "com.jakewharton.timber:timber:$TIMBER_VERSION"
+  implementation "com.squareup.okhttp3:logging-interceptor:$OKHTTP3_VERSION"
+  implementation "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
+  implementation "com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION"
+  implementation "com.squareup.retrofit2:adapter-rxjava2:$RETROFIT_VERSION"
 
-    compile "com.google.dagger:dagger:$DAGGER_VERSION"
-    apt "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
-    provided "javax.annotation:jsr250-api:$JSR250_VERSION"
+  implementation "io.reactivex.rxjava2:rxjava:$RXJAVA_VERSION"
+  implementation "io.reactivex.rxjava2:rxandroid:$RXANDROID_VERSION"
 
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+  compileOnly "javax.annotation:jsr250-api:$JSR250_VERSION"
 
-    // Test Dependencies
-    androidTestCompile "junit:junit:$JUNIT_VERSION"
-    testCompile "junit:junit:$JUNIT_VERSION"
-    testCompile "org.easymock:easymock:$EASYMOCK_VERSION"
-    testCompile "org.mockito:mockito-core:$MOCKITO_VERSION"
-    testCompile "org.powermock:powermock-api-mockito:$POWERMOCK_VERSION"
-    testCompile "org.powermock:powermock-api-easymock:$POWERMOCK_VERSION"
-    testCompile "org.powermock:powermock-module-junit4:$POWERMOCK_VERSION"
+  // Test Dependencies
+  androidTestImplementation "junit:junit:$JUNIT_VERSION"
+  testImplementation "junit:junit:$JUNIT_VERSION"
+  testImplementation "org.easymock:easymock:$EASYMOCK_VERSION"
+  testImplementation "org.mockito:mockito-core:$MOCKITO_VERSION"
+  testImplementation "org.powermock:powermock-api-mockito:$POWERMOCK_VERSION"
+  testImplementation "org.powermock:powermock-api-easymock:$POWERMOCK_VERSION"
+  testImplementation "org.powermock:powermock-module-junit4:$POWERMOCK_VERSION"
+  testImplementation "org.robolectric:robolectric:$ROBOLECTRIC_VERSION"
+  testImplementation "org.robolectric:shadows-support-v4:$ROBOLECTRIC_SHADOWS_VERSION"
 }
 
 cobertura {
-    auxiliaryClasspath = files("${project.buildDir}/intermediates/classes/debug")
-    coverageFormats = ['xml']
+  auxiliaryClasspath = files("${project.buildDir}/intermediates/classes/debug")
+  coverageFormats = ['xml']
 }
 
 sonarqube {
-    properties {
-        property "sonar.sourceEncoding", "UTF-8"
-        property "sonar.projectName", "Boilerplate Clean Architecture Android"
-        property "sonar.projectKey", "com.chusobadenas.boilerplatecleanarchitecture:boilerplatecleanarchitecture-android"
-        property "sonar.projectVersion", "1.0"
-        property "sonar.java.libraries", project.android.applicationVariants.toList().first().javaCompile.classpath
-        property "sonar.sources", "."
-        property "sonar.exclusions", "build/**,src/androidTest/java/**,src/test/java/**"
-        property "sonar.tests", "src/test/java"
-        property "sonar.junit.reportsPath", "${project.buildDir}/test-results/testDebugUnitTest/debug"
-        property "sonar.cobertura.reportPath", "${project.buildDir}/reports/cobertura/coverage.xml"
-        property "sonar.android.lint.report", "${project.buildDir}/outputs/lint-results-debug.xml"
-        property "sonar.java.binaries", "${project.buildDir}/intermediates/classes/debug"
-        property "sonar.java.test.binaries", "${project.buildDir}/intermediates/classes/test/debug"
-        property "sonar.scm.url", "https://bitbucket.org/chusobadenas/clean-architecture-project"
-        property "sonar.scm.enabled", "true"
-    }
+  properties {
+    property "sonar.sourceEncoding", "UTF-8"
+    property "sonar.projectName", "Boilerplate Clean Architecture Android"
+    property "sonar.projectKey", "com.chusobadenas.boilerplatecleanarchitecture:boilerplatecleanarchitecture-android"
+    property "sonar.projectVersion", "1.1"
+    property "sonar.java.libraries", project.android.applicationVariants.toList().first().javaCompile.classpath
+    property "sonar.sources", "."
+    property "sonar.exclusions", "build/**,src/androidTest/java/**,src/test/java/**"
+    property "sonar.tests", "src/test/java"
+    property "sonar.junit.reportsPath", "${project.buildDir}/test-results/testDebugUnitTest/debug"
+    property "sonar.cobertura.reportPath", "${project.buildDir}/reports/cobertura/coverage.xml"
+    property "sonar.android.lint.report", "${project.buildDir}/outputs/lint-results-debug.xml"
+    property "sonar.java.binaries", "${project.buildDir}/intermediates/classes/debug"
+    property "sonar.java.test.binaries", "${project.buildDir}/intermediates/classes/test/debug"
+    property "sonar.scm.url", "https://bitbucket.org/chusobadenas/clean-architecture-project"
+    property "sonar.scm.enabled", "true"
+  }
 }
