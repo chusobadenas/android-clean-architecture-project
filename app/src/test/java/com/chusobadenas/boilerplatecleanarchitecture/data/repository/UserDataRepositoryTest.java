@@ -13,8 +13,8 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.List;
 
-import rx.Observable;
-import rx.functions.Action1;
+import io.reactivex.Observable;
+import io.reactivex.observers.TestObserver;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
@@ -22,52 +22,50 @@ import static org.mockito.Mockito.when;
 
 public class UserDataRepositoryTest {
 
-    private UserDataRepository mUserDataRepository;
+  private UserDataRepository userDataRepository;
 
-    @Mock
-    private APIService mMockApiService;
+  @Mock
+  private APIService apiService;
 
-    @Before
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
-        mUserDataRepository = new UserDataRepository(mMockApiService, new UserEntityDataMapper());
-    }
+  @Before
+  public void setUp() {
+    MockitoAnnotations.initMocks(this);
+    userDataRepository = new UserDataRepository(apiService, new UserEntityDataMapper());
+  }
 
-    @Test
-    public void testGetUsers() {
-        List<UserEntity> userEntities = new ArrayList<>();
-        UserEntity userEntity = new UserEntity();
-        userEntity.setUserId(1);
-        userEntities.add(userEntity);
-        Observable<List<UserEntity>> observableUserEntities = Observable.just(userEntities);
+  @Test
+  public void testGetUsers() {
+    List<UserEntity> userEntities = new ArrayList<>();
+    UserEntity userEntity = new UserEntity();
+    userEntity.setUserId(1);
+    userEntities.add(userEntity);
+    Observable<List<UserEntity>> observableUserEntities = Observable.just(userEntities);
 
-        when(mMockApiService.userEntityList()).thenReturn(observableUserEntities);
+    when(apiService.userEntityList()).thenReturn(observableUserEntities);
 
-        Observable<List<User>> observable = mUserDataRepository.users();
-        observable.subscribe(new Action1<List<User>>() {
-            @Override
-            public void call(List<User> users) {
-                assertFalse(users.isEmpty());
-                assertSame(users.size(), 1);
-                assertSame(users.get(0).getUserId(), 1);
-            }
-        });
-    }
+    Observable<List<User>> observable = userDataRepository.users();
+    TestObserver<List<User>> testObserver = observable.test();
+    testObserver.assertNoErrors();
+    List<User> userList = testObserver.values().get(0);
 
-    @Test
-    public void testGetUserById() {
-        UserEntity userEntity = new UserEntity();
-        userEntity.setUserId(1);
-        Observable<UserEntity> observableUserEntity = Observable.just(userEntity);
+    assertFalse(userList.isEmpty());
+    assertSame(userList.size(), 1);
+    assertSame(userList.get(0).getUserId(), 1);
+  }
 
-        when(mMockApiService.userEntityById(1)).thenReturn(observableUserEntity);
+  @Test
+  public void testGetUserById() {
+    UserEntity userEntity = new UserEntity();
+    userEntity.setUserId(1);
+    Observable<UserEntity> observableUserEntity = Observable.just(userEntity);
 
-        Observable<User> observable = mUserDataRepository.user(1);
-        observable.subscribe(new Action1<User>() {
-            @Override
-            public void call(User user) {
-                assertSame(user.getUserId(), 1);
-            }
-        });
-    }
+    when(apiService.userEntityById(1)).thenReturn(observableUserEntity);
+
+    Observable<User> observable = userDataRepository.user(1);
+    TestObserver<User> testObserver = observable.test();
+    testObserver.assertNoErrors();
+    User user = testObserver.values().get(0);
+
+    assertSame(user.getUserId(), 1);
+  }
 }

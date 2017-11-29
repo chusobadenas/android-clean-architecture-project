@@ -17,44 +17,44 @@ import static org.mockito.Mockito.verify;
 
 public class UserListPresenterTest {
 
-    private UserListPresenter mUserListPresenter;
+  private UserListPresenter userListPresenter;
 
-    @Mock
-    private GetUserList mMockGetUserList;
-    @Mock
-    private UserListMvpView mMockUserListMvpView;
+  @Mock
+  private GetUserList getUserList;
+  @Mock
+  private UserListMvpView userListMvpView;
 
-    @Before
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
-        mUserListPresenter = new UserListPresenter(mMockGetUserList, new UserModelDataMapper());
-        mUserListPresenter.attachView(mMockUserListMvpView);
-    }
+  @Before
+  public void setUp() {
+    MockitoAnnotations.initMocks(this);
+    userListPresenter = new UserListPresenter(getUserList, new UserModelDataMapper());
+    userListPresenter.attachView(userListMvpView);
+  }
 
-    @Test
-    public void testAttachViewSuccess() {
-        assertNotNull(mUserListPresenter.getMvpView());
-    }
+  @Test
+  public void testAttachViewSuccess() {
+    assertNotNull(userListPresenter.getMvpView());
+  }
 
-    @Test
-    public void testDetachViewSuccess() {
-        mUserListPresenter.detachView();
-        assertNull(mUserListPresenter.getMvpView());
-        verify(mMockGetUserList).unsubscribe();
-    }
+  @Test
+  public void testDetachViewSuccess() {
+    userListPresenter.detachView();
+    assertNull(userListPresenter.getMvpView());
+    verify(getUserList).unsubscribe();
+  }
 
-    @Test
-    public void testInitializeSuccess() {
-        mUserListPresenter.initialize();
-        verify(mMockUserListMvpView).hideRetry();
-        verify(mMockUserListMvpView).showLoading();
-        verify(mMockGetUserList).execute(any(DefaultSubscriber.class));
-    }
+  @Test
+  public void testInitializeSuccess() {
+    userListPresenter.initialize();
+    verify(userListMvpView).hideRetry();
+    verify(userListMvpView).showLoading();
+    verify(getUserList).execute(any(DefaultSubscriber.class));
+  }
 
-    @Test
-    public void testOnUserClickedSuccess() {
-        UserModel userModel = new UserModel(1);
-        mUserListPresenter.onUserClicked(userModel);
-        verify(mMockUserListMvpView).viewUser(userModel);
-    }
+  @Test
+  public void testOnUserClickedSuccess() {
+    UserModel userModel = new UserModel(1);
+    userListPresenter.onUserClicked(userModel);
+    verify(userListMvpView).viewUser(userModel);
+  }
 }

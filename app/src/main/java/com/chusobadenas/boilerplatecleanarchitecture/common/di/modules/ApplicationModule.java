@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2015 Fernando Cejas Open Source Project
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,6 +18,7 @@ package com.chusobadenas.boilerplatecleanarchitecture.common.di.modules;
 import android.content.Context;
 
 import com.chusobadenas.boilerplatecleanarchitecture.AndroidApplication;
+import com.chusobadenas.boilerplatecleanarchitecture.common.di.ApplicationContext;
 import com.chusobadenas.boilerplatecleanarchitecture.common.executor.JobExecutor;
 import com.chusobadenas.boilerplatecleanarchitecture.common.executor.PostExecutionThread;
 import com.chusobadenas.boilerplatecleanarchitecture.common.executor.ThreadExecutor;
@@ -37,44 +38,45 @@ import dagger.Provides;
 @Module
 public class ApplicationModule {
 
-    private final AndroidApplication mApplication;
+  private final AndroidApplication application;
 
-    /**
-     * Constructor
-     *
-     * @param application the application
-     */
-    public ApplicationModule(AndroidApplication application) {
-        this.mApplication = application;
-    }
+  /**
+   * Constructor
+   *
+   * @param application the application
+   */
+  public ApplicationModule(AndroidApplication application) {
+    this.application = application;
+  }
 
-    @Provides
-    @Singleton
-    Context provideApplicationContext() {
-        return mApplication;
-    }
+  @Provides
+  @Singleton
+  APIService provideApiService() {
+    return APIService.Creator.newAPIService();
+  }
 
-    @Provides
-    @Singleton
-    ThreadExecutor provideThreadExecutor(JobExecutor jobExecutor) {
-        return jobExecutor;
-    }
+  @ApplicationContext
+  @Provides
+  @Singleton
+  Context provideApplicationContext() {
+    return application;
+  }
 
-    @Provides
-    @Singleton
-    PostExecutionThread providePostExecutionThread(UIThread uiThread) {
-        return uiThread;
-    }
+  @Provides
+  @Singleton
+  PostExecutionThread providePostExecutionThread(UIThread uiThread) {
+    return uiThread;
+  }
 
-    @Provides
-    @Singleton
-    UserRepository provideUserRepository(UserDataRepository userDataRepository) {
-        return userDataRepository;
-    }
+  @Provides
+  @Singleton
+  ThreadExecutor provideThreadExecutor(JobExecutor jobExecutor) {
+    return jobExecutor;
+  }
 
-    @Provides
-    @Singleton
-    APIService provideApiService() {
-        return APIService.Creator.newAPIService();
-    }
+  @Provides
+  @Singleton
+  UserRepository provideUserRepository(UserDataRepository userDataRepository) {
+    return userDataRepository;
+  }
 }

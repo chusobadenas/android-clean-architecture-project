@@ -14,10 +14,10 @@ import com.chusobadenas.boilerplatecleanarchitecture.presentation.model.UserMode
  */
 interface UserDetailsMvpView extends MvpView {
 
-    /**
-     * Render a user in the UI.
-     *
-     * @param user The {@link UserModel} that will be shown.
-     */
-    void renderUser(UserModel user);
+  /**
+   * Render a user in the UI.
+   *
+   * @param user The {@link UserModel} that will be shown.
+   */
+  void renderUser(UserModel user);
 }

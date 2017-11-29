@@ -12,41 +12,42 @@ import org.mockito.MockitoAnnotations;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 
 public class UserDetailsPresenterTest {
 
-    private UserDetailsPresenter mUserDetailsPresenter;
+  private UserDetailsPresenter userDetailsPresenter;
 
-    @Mock
-    private GetUserDetails mMockGetUserDetails;
-    @Mock
-    private UserDetailsMvpView mMockUserDetailsMvpView;
+  @Mock
+  private GetUserDetails getUserDetails;
+  @Mock
+  private UserDetailsMvpView userDetailsMvpView;
 
-    @Before
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
-        mUserDetailsPresenter = new UserDetailsPresenter(mMockGetUserDetails, new UserModelDataMapper());
-        mUserDetailsPresenter.attachView(mMockUserDetailsMvpView);
-    }
+  @Before
+  public void setUp() {
+    MockitoAnnotations.initMocks(this);
+    userDetailsPresenter = new UserDetailsPresenter(getUserDetails, new UserModelDataMapper());
+    userDetailsPresenter.attachView(userDetailsMvpView);
+  }
 
-    @Test
-    public void testAttachViewSuccess() {
-        assertNotNull(mUserDetailsPresenter.getMvpView());
-    }
+  @Test
+  public void testAttachViewSuccess() {
+    assertNotNull(userDetailsPresenter.getMvpView());
+  }
 
-    @Test
-    public void testDetachViewSuccess() {
-        mUserDetailsPresenter.detachView();
-        assertNull(mUserDetailsPresenter.getMvpView());
-        verify(mMockGetUserDetails).unsubscribe();
-    }
+  @Test
+  public void testDetachViewSuccess() {
+    userDetailsPresenter.detachView();
+    assertNull(userDetailsPresenter.getMvpView());
+    verify(getUserDetails).unsubscribe();
+  }
 
-    @Test
-    public void testInitializeSuccess() {
-        mUserDetailsPresenter.initialize();
-        verify(mMockUserDetailsMvpView).hideRetry();
-        verify(mMockUserDetailsMvpView).showLoading();
-        verify(mMockGetUserDetails).execute(any(DefaultSubscriber.class));
-    }
+  @Test
+  public void testInitializeSuccess() {
+    userDetailsPresenter.initialize(1);
+    verify(userDetailsMvpView).hideRetry();
+    verify(userDetailsMvpView).showLoading();
+    verify(getUserDetails).execute(any(DefaultSubscriber.class), eq(1));
+  }
 }

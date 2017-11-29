@@ -2,44 +2,41 @@ package com.chusobadenas.boilerplatecleanarchitecture.common.di.modules;
 
 import com.chusobadenas.boilerplatecleanarchitecture.common.executor.PostExecutionThread;
 import com.chusobadenas.boilerplatecleanarchitecture.common.executor.ThreadExecutor;
-import com.chusobadenas.boilerplatecleanarchitecture.domain.interactor.GetUserList;
-import com.chusobadenas.boilerplatecleanarchitecture.domain.repository.UserRepository;
+import com.chusobadenas.boilerplatecleanarchitecture.data.repository.UserDataRepository;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class UserModuleTest {
 
-    private UserModule mUserModule;
+  private UserModule userModule;
 
-    @Mock
-    private UserRepository mMockUserRepository;
-    @Mock
-    private ThreadExecutor mMockThreadExecutor;
-    @Mock
-    private PostExecutionThread mMockPostExecutionThread;
-    @Mock
-    private GetUserList mMockGetUserList;
+  @Mock
+  private UserDataRepository userDataRepository;
+  @Mock
+  private ThreadExecutor threadExecutor;
+  @Mock
+  private PostExecutionThread postExecutionThread;
 
-    @Before
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
-        mUserModule = new UserModule(1);
-    }
+  @Before
+  public void setUp() {
+    MockitoAnnotations.initMocks(this);
+    userModule = new UserModule();
+  }
 
-    @Test
-    public void testProvideGetUserList() {
-        assertEquals(mUserModule.provideGetUserListUseCase(mMockGetUserList), mMockGetUserList);
-    }
+  @Test
+  public void testProvideGetUserList() {
+    assertNotNull(userModule.provideGetUserListUseCase(userDataRepository, threadExecutor,
+        postExecutionThread));
+  }
 
-    @Test
-    public void testProvideGetUserDetailsUseCase() {
-        assertNotNull(mUserModule.provideGetUserDetailsUseCase(mMockUserRepository, mMockThreadExecutor,
-                mMockPostExecutionThread));
-    }
+  @Test
+  public void testProvideGetUserDetailsUseCase() {
+    assertNotNull(userModule.provideGetUserDetailsUseCase(userDataRepository, threadExecutor,
+        postExecutionThread));
+  }
 }

@@ -7,6 +7,7 @@ package com.chusobadenas.boilerplatecleanarchitecture.presentation.userlist;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,7 +17,7 @@ import android.widget.RelativeLayout;
 
 import com.chusobadenas.boilerplatecleanarchitecture.R;
 import com.chusobadenas.boilerplatecleanarchitecture.common.di.components.UserComponent;
-import com.chusobadenas.boilerplatecleanarchitecture.presentation.base.BaseFragment;
+import com.chusobadenas.boilerplatecleanarchitecture.presentation.base.BaseMvpFragment;
 import com.chusobadenas.boilerplatecleanarchitecture.presentation.model.UserModel;
 
 import java.util.Collection;
@@ -31,163 +32,153 @@ import butterknife.Unbinder;
 /**
  * Fragment that shows a list of Users.
  */
-public class UserListFragment extends BaseFragment implements UserListMvpView {
+public class UserListFragment extends BaseMvpFragment implements UserListMvpView {
 
-    /**
-     * Interface for listening user list events.
-     */
-    public interface UserListListener {
+  /**
+   * Interface for listening user list events.
+   */
+  public interface UserListListener {
 
-        void onUserClicked(final UserModel userModel);
+    void onUserClicked(final UserModel userModel);
+  }
+
+  @Inject
+  UserListPresenter userListPresenter;
+  @Inject
+  UsersAdapter usersAdapter;
+
+  @BindView(R.id.rv_users)
+  RecyclerView viewUsers;
+  @BindView(R.id.rl_progress)
+  RelativeLayout viewProgress;
+  @BindView(R.id.rl_retry)
+  RelativeLayout viewRetry;
+  @BindView(R.id.swipe_container)
+  SwipeRefreshLayout swipeRefresh;
+
+  private UserListListener userListListener;
+  private Unbinder unbinder;
+
+  /**
+   * Creates a new instance of a UserListFragment.
+   */
+  public static UserListFragment newInstance() {
+    return new UserListFragment();
+  }
+
+  @Override
+  public void onAttachToContext(Context context) {
+    super.onAttachToContext(context);
+    if (context instanceof UserListListener) {
+      userListListener = (UserListListener) context;
     }
+  }
 
-    @Inject
-    UserListPresenter mUserListPresenter;
-    @Inject
-    UsersAdapter mUsersAdapter;
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    getComponent(UserComponent.class).inject(this);
+  }
 
-    @BindView(R.id.rv_users)
-    RecyclerView mViewUsers;
-    @BindView(R.id.rl_progress)
-    RelativeLayout mViewProgress;
-    @BindView(R.id.rl_retry)
-    RelativeLayout mViewRetry;
-    @BindView(R.id.swipe_container)
-    SwipeRefreshLayout mSwipeRefresh;
+  @Override
+  public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                           Bundle savedInstanceState) {
+    View fragmentView = inflater.inflate(R.layout.fragment_user_list, container, false);
+    unbinder = ButterKnife.bind(this, fragmentView);
+    userListPresenter.attachView(this);
+    setupRecyclerView();
+    return fragmentView;
+  }
 
-    private UserListListener mUserListListener;
-    private Unbinder mUnbinder;
+  @Override
+  public void onStart() {
+    super.onStart();
+    loadUserList();
+  }
 
-    /**
-     * Creates a new instance of a UserListFragment.
-     */
-    public static UserListFragment newInstance() {
-        return new UserListFragment();
+  @Override
+  public void onDestroyView() {
+    super.onDestroyView();
+    viewUsers.setAdapter(null);
+    unbinder.unbind();
+  }
+
+  @Override
+  public void onDestroy() {
+    super.onDestroy();
+    userListPresenter.detachView();
+  }
+
+  @Override
+  public void showLoading() {
+    swipeRefresh.setVisibility(View.GONE);
+    swipeRefresh.setRefreshing(true);
+    viewProgress.setVisibility(View.VISIBLE);
+  }
+
+  @Override
+  public void hideLoading() {
+    swipeRefresh.setVisibility(View.VISIBLE);
+    swipeRefresh.setRefreshing(false);
+    viewProgress.setVisibility(View.GONE);
+  }
+
+  @Override
+  public void showRetry() {
+    viewRetry.setVisibility(View.VISIBLE);
+  }
+
+  @Override
+  public void hideRetry() {
+    viewRetry.setVisibility(View.GONE);
+  }
+
+  @Override
+  public void renderUserList(Collection<UserModel> userModelCollection) {
+    if (userModelCollection != null) {
+      usersAdapter.setUsersCollection(userModelCollection);
     }
+  }
 
-    @Override
-    public void onAttachToContext(Context context) {
-        super.onAttachToContext(context);
-        if (context instanceof UserListListener) {
-            mUserListListener = (UserListListener) context;
-        }
+  @Override
+  public void viewUser(UserModel userModel) {
+    if (userListListener != null) {
+      userListListener.onUserClicked(userModel);
     }
+  }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setRetainInstance(true);
-        getComponent(UserComponent.class).inject(this);
-    }
+  private void setupRecyclerView() {
+    usersAdapter.setOnItemClickListener(onItemClickListener);
+    viewUsers.setLayoutManager(new UsersLayoutManager(context()));
+    viewUsers.setAdapter(usersAdapter);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View fragmentView = inflater.inflate(R.layout.fragment_user_list, container, false);
-        mUnbinder = ButterKnife.bind(this, fragmentView);
-        mUserListPresenter.attachView(this);
-        setupRecyclerView();
-        return fragmentView;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
+    swipeRefresh.setColorSchemeResources(R.color.primary);
+    swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+      @Override
+      public void onRefresh() {
         loadUserList();
-    }
+      }
+    });
+  }
 
+  /**
+   * Loads all users.
+   */
+  private void loadUserList() {
+    userListPresenter.initialize();
+  }
+
+  @OnClick(R.id.bt_retry)
+  void onButtonRetryClick() {
+    loadUserList();
+  }
+
+  private final UsersAdapter.OnItemClickListener onItemClickListener = new UsersAdapter.OnItemClickListener() {
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        mViewUsers.setAdapter(null);
-        mUnbinder.unbind();
+    public void onUserItemClicked(UserModel userModel) {
+      if (userListPresenter != null && userModel != null) {
+        userListPresenter.onUserClicked(userModel);
+      }
     }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mUserListPresenter.detachView();
-    }
-
-    @Override
-    public void showLoading() {
-        mSwipeRefresh.setVisibility(View.GONE);
-        mSwipeRefresh.setRefreshing(true);
-        mViewProgress.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideLoading() {
-        mSwipeRefresh.setVisibility(View.VISIBLE);
-        mSwipeRefresh.setRefreshing(false);
-        mViewProgress.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void showRetry() {
-        mViewRetry.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideRetry() {
-        mViewRetry.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void renderUserList(Collection<UserModel> userModelCollection) {
-        if (userModelCollection != null) {
-            mUsersAdapter.setUsersCollection(userModelCollection);
-        }
-    }
-
-    @Override
-    public void viewUser(UserModel userModel) {
-        if (mUserListListener != null) {
-            mUserListListener.onUserClicked(userModel);
-        }
-    }
-
-    @Override
-    public void showError(String message) {
-        showToastMessage(message);
-    }
-
-    @Override
-    public Context context() {
-        return getActivity().getApplicationContext();
-    }
-
-    private void setupRecyclerView() {
-        mUsersAdapter.setOnItemClickListener(onItemClickListener);
-        mViewUsers.setLayoutManager(new UsersLayoutManager(context()));
-        mViewUsers.setAdapter(mUsersAdapter);
-
-        mSwipeRefresh.setColorSchemeResources(R.color.primary);
-        mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                loadUserList();
-            }
-        });
-    }
-
-    /**
-     * Loads all users.
-     */
-    private void loadUserList() {
-        mUserListPresenter.initialize();
-    }
-
-    @OnClick(R.id.bt_retry)
-    void onButtonRetryClick() {
-        loadUserList();
-    }
-
-    private final UsersAdapter.OnItemClickListener onItemClickListener = new UsersAdapter.OnItemClickListener() {
-        @Override
-        public void onUserItemClicked(UserModel userModel) {
-            if (mUserListPresenter != null && userModel != null) {
-                mUserListPresenter.onUserClicked(userModel);
-            }
-        }
-    };
+  };
 }
