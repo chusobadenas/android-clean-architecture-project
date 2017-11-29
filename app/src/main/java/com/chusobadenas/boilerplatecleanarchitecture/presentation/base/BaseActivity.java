@@ -1,9 +1,8 @@
 package com.chusobadenas.boilerplatecleanarchitecture.presentation.base;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
@@ -15,90 +14,104 @@ import com.chusobadenas.boilerplatecleanarchitecture.presentation.navigation.Nav
 import javax.inject.Inject;
 
 /**
- * Base {@link android.support.v7.app.AppCompatActivity} class for every Activity in this application.
+ * Base {@link AppCompatActivity} class for every Activity in this application.
  */
 public abstract class BaseActivity extends AppCompatActivity {
 
-    @Inject
-    protected Navigator navigator;
+  @Inject
+  protected Navigator navigator;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        this.getApplicationComponent().inject(this);
+  /**
+   * @return the {@link Navigator}
+   */
+  public Navigator getNavigator() {
+    return navigator;
+  }
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    this.getApplicationComponent().inject(this);
+  }
+
+  /**
+   * Adds a {@link Fragment} to this activity's layout.
+   *
+   * @param containerViewId The container view to where add the fragment.
+   * @param fragment        The fragment to be added.
+   */
+  public void addFragment(int containerViewId, Fragment fragment) {
+    getSupportFragmentManager().beginTransaction()
+        .add(containerViewId, fragment)
+        .commit();
+  }
+
+  /**
+   * Replaces a {@link Fragment} to this activity's layout.
+   *
+   * @param containerViewId The container view to where replace the fragment.
+   * @param fragment        The fragment to be replaced.
+   * @param addToBackStack  true to add this fragment to the back stack, false otherwise
+   */
+  public void replaceFragment(int containerViewId, Fragment fragment, boolean addToBackStack) {
+    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction()
+        .replace(containerViewId, fragment);
+
+    if (addToBackStack) {
+      transaction = transaction.addToBackStack(null);
     }
 
-    /**
-     * Adds a {@link Fragment} to this activity's layout.
-     *
-     * @param containerViewId The container view to where add the fragment.
-     * @param fragment        The fragment to be added.
-     */
-    protected void addFragment(int containerViewId, Fragment fragment) {
-        FragmentTransaction fragmentTransaction = this.getFragmentManager().beginTransaction();
-        fragmentTransaction.add(containerViewId, fragment);
-        fragmentTransaction.commit();
+    transaction.commit();
+  }
+
+  /**
+   * Gets the current fragment of the container
+   *
+   * @param containerId the container id
+   * @return the current fragment
+   */
+  public Fragment getCurrentFragment(int containerId) {
+    return getSupportFragmentManager().findFragmentById(containerId);
+  }
+
+  /**
+   * Get the Main Application component for dependency injection.
+   *
+   * @return {@link ApplicationComponent}
+   */
+  protected ApplicationComponent getApplicationComponent() {
+    return ((AndroidApplication) getApplication()).getComponent();
+  }
+
+  /**
+   * Get an Activity module for dependency injection.
+   *
+   * @return {@link ActivityModule}
+   */
+  protected ActivityModule getActivityModule() {
+    return new ActivityModule(this);
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    boolean result = super.onOptionsItemSelected(item);
+
+    if (android.R.id.home == item.getItemId()) {
+      onBackPressed();
+      result = true;
     }
 
-    /**
-     * Replace a {@link Fragment} to this activity's layout.
-     *
-     * @param containerViewId The container view to where replace the fragment.
-     * @param fragment        The fragment to be added.
-     */
-    protected void replaceFragment(int containerViewId, Fragment fragment) {
-        FragmentTransaction fragmentTransaction = this.getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(containerViewId, fragment);
-        fragmentTransaction.commit();
+    return result;
+  }
+
+  @Override
+  public void onBackPressed() {
+    android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+
+    if (fragmentManager.getBackStackEntryCount() > 0) {
+      fragmentManager.popBackStack();
+    } else {
+      super.onBackPressed();
     }
-
-    /**
-     * Get the Main Application component for dependency injection.
-     *
-     * @return {@link com.chusobadenas.boilerplatecleanarchitecture.common.di.components.ApplicationComponent}
-     */
-    protected ApplicationComponent getApplicationComponent() {
-        return ((AndroidApplication) getApplication()).getComponent();
-    }
-
-    /**
-     * Get an Activity module for dependency injection.
-     *
-     * @return {@link com.chusobadenas.boilerplatecleanarchitecture.common.di.modules.ActivityModule}
-     */
-    protected ActivityModule getActivityModule() {
-        return new ActivityModule(this);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        boolean result = super.onOptionsItemSelected(item);
-
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                FragmentManager fm = getFragmentManager();
-                if (fm.getBackStackEntryCount() > 0) {
-                    fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                } else {
-                    finish();
-                }
-                result = true;
-                break;
-            default:
-                break;
-        }
-
-        return result;
-    }
-
-    @Override
-    public void onBackPressed() {
-        FragmentManager fm = getFragmentManager();
-
-        if (fm.getBackStackEntryCount() > 0) {
-            fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        } else {
-            super.onBackPressed();
-        }
-    }
+  }
 }

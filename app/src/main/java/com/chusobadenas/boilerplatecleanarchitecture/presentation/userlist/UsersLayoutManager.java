@@ -7,13 +7,14 @@ package com.chusobadenas.boilerplatecleanarchitecture.presentation.userlist;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 /**
- * Layout manager to position items inside a {@link android.support.v7.widget.RecyclerView}.
+ * Layout manager to position items inside a {@link RecyclerView}.
  */
 class UsersLayoutManager extends LinearLayoutManager {
 
-    UsersLayoutManager(Context context) {
-        super(context);
-    }
+  UsersLayoutManager(Context context) {
+    super(context);
+  }
 }
