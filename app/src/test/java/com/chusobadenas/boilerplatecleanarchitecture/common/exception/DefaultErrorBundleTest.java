@@ -1,26 +1,44 @@
 package com.chusobadenas.boilerplatecleanarchitecture.common.exception;
 
+import android.content.Context;
+
+import com.chusobadenas.boilerplatecleanarchitecture.R;
+
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.when;
 
 public class DefaultErrorBundleTest {
 
-    @Test
-    public void testCreationDefaultMessage() {
-        DefaultErrorBundle defaultErrorBundle = new DefaultErrorBundle(null);
+  @Mock
+  private Context context;
 
-        assertNull(defaultErrorBundle.getException());
-        assertEquals(defaultErrorBundle.getErrorMessage(), "Unknown error");
-    }
+  @Before
+  public void setUp() {
+    MockitoAnnotations.initMocks(this);
+    when(context.getString(R.string.error_message_generic)).thenReturn("An error has occurred");
+  }
 
-    @Test
-    public void testCreationCustomMessage() {
-        Exception exception = new Exception("This is an error");
-        DefaultErrorBundle defaultErrorBundle = new DefaultErrorBundle(exception);
+  @Test
+  public void testCreationNullMessage() {
+    DefaultErrorBundle defaultErrorBundle = new DefaultErrorBundle(context, null, null);
 
-        assertEquals(defaultErrorBundle.getException(), exception);
-        assertEquals(defaultErrorBundle.getErrorMessage(), "This is an error");
-    }
+    assertNull(defaultErrorBundle.getException());
+    assertEquals(defaultErrorBundle.getErrorMessage(), "An error has occurred");
+  }
+
+  @Test
+  public void testCreationCustomMessage() {
+    Exception exception = new Exception("Error");
+    DefaultErrorBundle defaultErrorBundle = new DefaultErrorBundle(context, exception, R.string
+        .error_message_generic);
+
+    assertEquals(defaultErrorBundle.getException(), exception);
+    assertEquals(defaultErrorBundle.getErrorMessage(), "An error has occurred");
+  }
 }
