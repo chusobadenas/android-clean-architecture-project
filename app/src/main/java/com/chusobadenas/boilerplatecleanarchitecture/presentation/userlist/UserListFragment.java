@@ -14,20 +14,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-
-import com.chusobadenas.boilerplatecleanarchitecture.R;
-import com.chusobadenas.boilerplatecleanarchitecture.common.di.components.UserComponent;
-import com.chusobadenas.boilerplatecleanarchitecture.presentation.base.BaseMvpFragment;
-import com.chusobadenas.boilerplatecleanarchitecture.presentation.model.UserModel;
-
-import java.util.Collection;
-
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import com.chusobadenas.boilerplatecleanarchitecture.R;
+import com.chusobadenas.boilerplatecleanarchitecture.presentation.base.BaseMvpFragment;
+import com.chusobadenas.boilerplatecleanarchitecture.presentation.model.UserModel;
+
+import javax.inject.Inject;
+import java.util.*;
 
 /**
  * Fragment that shows a list of Users.
@@ -75,14 +71,8 @@ public class UserListFragment extends BaseMvpFragment implements UserListMvpView
   }
 
   @Override
-  public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    getComponent(UserComponent.class).inject(this);
-  }
-
-  @Override
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                           Bundle savedInstanceState) {
+      Bundle savedInstanceState) {
     View fragmentView = inflater.inflate(R.layout.fragment_user_list, container, false);
     unbinder = ButterKnife.bind(this, fragmentView);
     userListPresenter.attachView(this);

@@ -14,19 +14,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 import com.chusobadenas.boilerplatecleanarchitecture.R;
-import com.chusobadenas.boilerplatecleanarchitecture.common.di.components.UserComponent;
 import com.chusobadenas.boilerplatecleanarchitecture.common.util.UIUtils;
 import com.chusobadenas.boilerplatecleanarchitecture.presentation.base.BaseMvpFragment;
 import com.chusobadenas.boilerplatecleanarchitecture.presentation.model.UserModel;
 
 import javax.inject.Inject;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
 
 /**
  * Fragment that shows details of a certain user.
@@ -63,14 +60,8 @@ public class UserDetailsFragment extends BaseMvpFragment implements UserDetailsM
   }
 
   @Override
-  public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    getComponent(UserComponent.class).inject(this);
-  }
-
-  @Override
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                           Bundle savedInstanceState) {
+      Bundle savedInstanceState) {
     final View fragmentView = inflater.inflate(R.layout.fragment_user_details, container, false);
     unbinder = ButterKnife.bind(this, fragmentView);
     userDetailsPresenter.attachView(this);

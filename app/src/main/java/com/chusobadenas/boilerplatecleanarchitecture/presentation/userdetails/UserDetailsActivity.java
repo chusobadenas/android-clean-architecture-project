@@ -10,20 +10,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-
-import com.chusobadenas.boilerplatecleanarchitecture.R;
-import com.chusobadenas.boilerplatecleanarchitecture.common.di.HasComponent;
-import com.chusobadenas.boilerplatecleanarchitecture.common.di.components.DaggerUserComponent;
-import com.chusobadenas.boilerplatecleanarchitecture.common.di.components.UserComponent;
-import com.chusobadenas.boilerplatecleanarchitecture.presentation.base.BaseActivity;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.chusobadenas.boilerplatecleanarchitecture.R;
+import com.chusobadenas.boilerplatecleanarchitecture.presentation.base.BaseActivity;
 
 /**
  * Activity that shows details of a certain user.
  */
-public class UserDetailsActivity extends BaseActivity implements HasComponent<UserComponent> {
+public class UserDetailsActivity extends BaseActivity {
 
   private static final String INTENT_EXTRA_PARAM_USER_ID = "org.android10.INTENT_PARAM_USER_ID";
   private static final String INSTANCE_STATE_PARAM_USER_ID = "org.android10.STATE_PARAM_USER_ID";
@@ -32,14 +27,13 @@ public class UserDetailsActivity extends BaseActivity implements HasComponent<Us
   Toolbar toolbar;
 
   private int userId;
-  private UserComponent userComponent;
 
   public static Intent getCallingIntent(Context context, int userId) {
     Intent callingIntent = new Intent(context, UserDetailsActivity.class);
     callingIntent.putExtra(INTENT_EXTRA_PARAM_USER_ID, userId);
     return callingIntent;
   }
-  
+
   public int getUserId() {
     return userId;
   }
@@ -49,7 +43,6 @@ public class UserDetailsActivity extends BaseActivity implements HasComponent<Us
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_layout);
     this.initializeActivity(savedInstanceState);
-    this.initializeInjector();
     ButterKnife.bind(this);
     setupToolbar();
   }
@@ -82,17 +75,5 @@ public class UserDetailsActivity extends BaseActivity implements HasComponent<Us
     } else {
       userId = savedInstanceState.getInt(INSTANCE_STATE_PARAM_USER_ID);
     }
-  }
-
-  private void initializeInjector() {
-    this.userComponent = DaggerUserComponent.builder()
-        .applicationComponent(getApplicationComponent())
-        .activityModule(getActivityModule())
-        .build();
-  }
-
-  @Override
-  public UserComponent getComponent() {
-    return userComponent;
   }
 }
