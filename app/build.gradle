@@ -38,7 +38,7 @@ android {
 }
 
 dependencies {
-  final BUTTERKNIFE_VERSION = '9.0.0'
+  final BUTTERKNIFE_VERSION = '9.0.0' // 10.1.0
   final DAGGER_VERSION = '2.21'
   final EASYMOCK_VERSION = '3.5'      // 4.0.2
   final GLIDE_VERSION = '4.9.0'
@@ -60,6 +60,7 @@ dependencies {
 
   annotationProcessor "com.github.bumptech.glide:compiler:$GLIDE_VERSION"
   annotationProcessor "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
+  annotationProcessor "com.google.dagger:dagger-android-processor:$DAGGER_VERSION"
   annotationProcessor "com.jakewharton:butterknife-compiler:$BUTTERKNIFE_VERSION"
 
   implementation "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"
@@ -74,6 +75,8 @@ dependencies {
   implementation "com.github.bumptech.glide:glide:$GLIDE_VERSION"
   implementation "com.google.android.gms:play-services-gcm:$PLAY_SERVICES_VERSION"
   implementation "com.google.dagger:dagger:$DAGGER_VERSION"
+  implementation "com.google.dagger:dagger-android:$DAGGER_VERSION"
+  implementation "com.google.dagger:dagger-android-support:$DAGGER_VERSION"
   implementation "com.jakewharton:butterknife:$BUTTERKNIFE_VERSION"
   implementation "com.jakewharton.timber:timber:$TIMBER_VERSION"
   implementation "com.squareup.okhttp3:logging-interceptor:$OKHTTP3_VERSION"
