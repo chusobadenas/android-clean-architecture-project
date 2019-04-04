@@ -9,28 +9,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import com.chusobadenas.boilerplatecleanarchitecture.R;
-import com.chusobadenas.boilerplatecleanarchitecture.common.di.HasComponent;
-import com.chusobadenas.boilerplatecleanarchitecture.common.di.components.DaggerUserComponent;
-import com.chusobadenas.boilerplatecleanarchitecture.common.di.components.UserComponent;
 import com.chusobadenas.boilerplatecleanarchitecture.presentation.base.BaseActivity;
 import com.chusobadenas.boilerplatecleanarchitecture.presentation.model.UserModel;
 import com.chusobadenas.boilerplatecleanarchitecture.presentation.userlist.UserListFragment.UserListListener;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
  * Activity that shows a list of Users.
  */
-public class UserListActivity extends BaseActivity implements HasComponent<UserComponent>,
-    UserListListener {
+public class UserListActivity extends BaseActivity implements UserListListener {
 
   @BindView(R.id.toolbar)
   Toolbar toolbar;
-
-  private UserComponent userComponent;
 
   public static Intent getCallingIntent(Context context) {
     return new Intent(context, UserListActivity.class);
@@ -41,23 +33,10 @@ public class UserListActivity extends BaseActivity implements HasComponent<UserC
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_layout);
     ButterKnife.bind(this);
-    initializeInjector();
     setSupportActionBar(toolbar);
     if (savedInstanceState == null) {
       addFragment(R.id.fragmentContainer, UserListFragment.newInstance());
     }
-  }
-
-  private void initializeInjector() {
-    userComponent = DaggerUserComponent.builder()
-        .applicationComponent(getApplicationComponent())
-        .activityModule(getActivityModule())
-        .build();
-  }
-
-  @Override
-  public UserComponent getComponent() {
-    return userComponent;
   }
 
   @Override

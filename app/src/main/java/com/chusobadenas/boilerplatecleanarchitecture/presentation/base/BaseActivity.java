@@ -1,22 +1,19 @@
 package com.chusobadenas.boilerplatecleanarchitecture.presentation.base;
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-
-import com.chusobadenas.boilerplatecleanarchitecture.AndroidApplication;
-import com.chusobadenas.boilerplatecleanarchitecture.common.di.components.ApplicationComponent;
 import com.chusobadenas.boilerplatecleanarchitecture.common.di.modules.ActivityModule;
 import com.chusobadenas.boilerplatecleanarchitecture.presentation.navigation.Navigator;
+import dagger.android.support.DaggerAppCompatActivity;
 
 import javax.inject.Inject;
 
 /**
  * Base {@link AppCompatActivity} class for every Activity in this application.
  */
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends DaggerAppCompatActivity {
 
   @Inject
   protected Navigator navigator;
@@ -28,17 +25,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     return navigator;
   }
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    this.getApplicationComponent().inject(this);
-  }
-
   /**
    * Adds a {@link Fragment} to this activity's layout.
    *
    * @param containerViewId The container view to where add the fragment.
-   * @param fragment        The fragment to be added.
+   * @param fragment The fragment to be added.
    */
   public void addFragment(int containerViewId, Fragment fragment) {
     getSupportFragmentManager().beginTransaction()
@@ -50,8 +41,8 @@ public abstract class BaseActivity extends AppCompatActivity {
    * Replaces a {@link Fragment} to this activity's layout.
    *
    * @param containerViewId The container view to where replace the fragment.
-   * @param fragment        The fragment to be replaced.
-   * @param addToBackStack  true to add this fragment to the back stack, false otherwise
+   * @param fragment The fragment to be replaced.
+   * @param addToBackStack true to add this fragment to the back stack, false otherwise
    */
   public void replaceFragment(int containerViewId, Fragment fragment, boolean addToBackStack) {
     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction()
@@ -68,19 +59,11 @@ public abstract class BaseActivity extends AppCompatActivity {
    * Gets the current fragment of the container
    *
    * @param containerId the container id
+   *
    * @return the current fragment
    */
   public Fragment getCurrentFragment(int containerId) {
     return getSupportFragmentManager().findFragmentById(containerId);
-  }
-
-  /**
-   * Get the Main Application component for dependency injection.
-   *
-   * @return {@link ApplicationComponent}
-   */
-  protected ApplicationComponent getApplicationComponent() {
-    return ((AndroidApplication) getApplication()).getComponent();
   }
 
   /**

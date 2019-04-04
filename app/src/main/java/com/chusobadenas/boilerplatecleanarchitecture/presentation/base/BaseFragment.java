@@ -11,13 +11,12 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-
-import com.chusobadenas.boilerplatecleanarchitecture.common.di.HasComponent;
+import dagger.android.support.DaggerFragment;
 
 /**
  * Base {@link Fragment} class for every fragment in this application.
  */
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment extends DaggerFragment {
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -56,13 +55,5 @@ public abstract class BaseFragment extends Fragment {
    */
   protected void onAttachToContext(Context context) {
     // No-op by default
-  }
-
-  /**
-   * Gets a component for dependency injection by its type.
-   */
-  @SuppressWarnings("unchecked")
-  protected <C> C getComponent(Class<C> componentType) {
-    return componentType.cast(((HasComponent<C>) getActivity()).getComponent());
   }
 }

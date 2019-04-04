@@ -15,34 +15,20 @@
  */
 package com.chusobadenas.boilerplatecleanarchitecture;
 
-import android.app.Application;
-
-import com.chusobadenas.boilerplatecleanarchitecture.common.di.HasComponent;
-import com.chusobadenas.boilerplatecleanarchitecture.common.di.components.ApplicationComponent;
 import com.chusobadenas.boilerplatecleanarchitecture.common.di.components.DaggerApplicationComponent;
-import com.chusobadenas.boilerplatecleanarchitecture.common.di.modules.ApplicationModule;
+import dagger.android.AndroidInjector;
+import dagger.android.DaggerApplication;
 
 /**
  * Android Main Application
  */
-public class AndroidApplication extends Application implements HasComponent<ApplicationComponent> {
-
-  private ApplicationComponent applicationComponent;
+public class AndroidApplication extends DaggerApplication {
 
   @Override
-  public void onCreate() {
-    super.onCreate();
-    initializeInjector();
-  }
-
-  @Override
-  public ApplicationComponent getComponent() {
-    return applicationComponent;
-  }
-
-  protected void initializeInjector() {
-    applicationComponent = DaggerApplicationComponent.builder()
-        .applicationModule(new ApplicationModule(this))
+  protected AndroidInjector<? extends DaggerApplication> applicationInjector() {
+    return DaggerApplicationComponent
+        .builder()
+        .application(this)
         .build();
   }
 }

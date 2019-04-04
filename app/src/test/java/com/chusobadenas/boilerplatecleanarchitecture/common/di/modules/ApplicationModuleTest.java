@@ -1,15 +1,14 @@
 package com.chusobadenas.boilerplatecleanarchitecture.common.di.modules;
 
 import android.content.Context;
-
 import com.chusobadenas.boilerplatecleanarchitecture.AndroidApplication;
 import com.chusobadenas.boilerplatecleanarchitecture.common.executor.JobExecutor;
 import com.chusobadenas.boilerplatecleanarchitecture.common.executor.UIThread;
 import com.chusobadenas.boilerplatecleanarchitecture.data.repository.UserDataRepository;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import static org.junit.Assert.assertEquals;
@@ -22,6 +21,8 @@ public class ApplicationModuleTest {
   @Mock
   private AndroidApplication application;
   @Mock
+  private Context context;
+  @Mock
   private UIThread uiThread;
   @Mock
   private JobExecutor jobExecutor;
@@ -31,14 +32,16 @@ public class ApplicationModuleTest {
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
-    applicationModule = new ApplicationModule(application);
+    applicationModule = new ApplicationModule();
+
+    Mockito.when(application.getApplicationContext()).thenReturn(context);
   }
 
   @Test
   public void testProvideApplicationContextSuccess() {
-    Context context = applicationModule.provideApplicationContext();
-    assertNotNull(context);
-    assertEquals(context, application);
+    Context ctx = applicationModule.provideContext(application);
+    assertNotNull(ctx);
+    assertEquals(ctx, context);
   }
 
   @Test
