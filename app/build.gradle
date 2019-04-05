@@ -11,7 +11,7 @@ android {
     minSdkVersion 19
     targetSdkVersion 28
     versionCode 4
-    versionName "2.1"
+    versionName "2.0.1"
   }
 
   buildTypes {
@@ -111,7 +111,7 @@ sonarqube {
     property "sonar.sourceEncoding", "UTF-8"
     property "sonar.projectName", "Boilerplate Clean Architecture Android"
     property "sonar.projectKey", "com.chusobadenas.boilerplatecleanarchitecture:boilerplatecleanarchitecture-android"
-    property "sonar.projectVersion", "2.1"
+    property "sonar.projectVersion", "2.0.1"
     property "sonar.java.libraries", project.android.applicationVariants.toList().first().javaCompile.classpath
     property "sonar.sources", "."
     property "sonar.exclusions", "build/**,src/androidTest/java/**,src/test/java/**"
