@@ -4,13 +4,14 @@ The following project is a POC for getting knowledge about applying Clean Archit
 
 It's written 100% in Java, pending to convert it to Kotlin. It has unit tests and I try to be keeping up-to-date as libraries changes.
 
+<br>
 
 The sample app when run will show you a simple list of people and you can access to the detailed view of each one:
 
-![List](./img/sample-app-1.png)
+<img src="./img/sample-app-1.png" alt="list" height="480" width="280"/>
+<img src="./img/sample-app-2.png" alt="detail" height="480" width="280"/>
 
-![Detail](./img/sample-app-2.png)
-
+<br>
 
 ### [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) ###
 
@@ -18,6 +19,7 @@ The architecture of the project follows the principles of Clean Architecture:
 
 ![Clean Architecture](./img/clean-architecture.png)
 
+<br>
 
 ### Languages, libraries and tools used ###
 
@@ -35,6 +37,7 @@ The architecture of the project follows the principles of Clean Architecture:
 - [PowerMock](https://github.com/powermock/powermock)
 - [Robolectric](http://robolectric.org)
 
+<br>
 
 ### Requirements ###
 
