@@ -2,24 +2,21 @@
 
 The following project is a POC for getting knowledge about applying Clean Architecture in order to build an Android application.
 
-It's written 100% in Java, pending to convert it to Kotlin. It has unit tests and I try to be keeping up-to-date as libraries changes.
+It's written 100% in Java, pending to convert it to Kotlin. It has unit tests and I try to be keeping up-to-date as libraries changes.  
 
-<br>
 
 The sample app when run will show you a simple list of people and you can access to the detailed view of each one:
 
-<img src="./img/sample-app-1.png" alt="list" height="480" width="280"/>
-<img src="./img/sample-app-2.png" alt="detail" height="480" width="280"/>
+![List](./img/sample-app-1.png)
+![Detail](./img/sample-app-2.png)  
 
-<br>
 
 ### [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) ###
 
 The architecture of the project follows the principles of Clean Architecture:
 
-![Clean Architecture](./img/clean-architecture.png)
+![Clean Architecture](./img/clean-architecture.png)  
 
-<br>
 
 ### Languages, libraries and tools used ###
 
@@ -35,13 +32,12 @@ The architecture of the project follows the principles of Clean Architecture:
 - [EasyMock](http://easymock.org)
 - [Mockito](https://site.mockito.org)
 - [PowerMock](https://github.com/powermock/powermock)
-- [Robolectric](http://robolectric.org)
+- [Robolectric](http://robolectric.org)  
 
-<br>
 
 ### Requirements ###
 
 - [JDK 1.8](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 - [Android SDK](https://developer.android.com/studio)
 - Android O ([API 28](https://developer.android.com/about/versions/pie/android-9.0))
-- Latest Android SDK Tools and build tools
+- Latest Android SDK Tools and build tools  
