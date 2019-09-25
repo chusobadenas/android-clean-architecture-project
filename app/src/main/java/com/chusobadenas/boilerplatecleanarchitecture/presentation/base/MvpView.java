@@ -7,7 +7,7 @@ package com.chusobadenas.boilerplatecleanarchitecture.presentation.base;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 /**
  * Base interface that any class that wants to act as a View in the MVP (Model View Presenter)
