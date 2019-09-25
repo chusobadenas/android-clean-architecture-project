@@ -1,8 +1,9 @@
 package com.chusobadenas.boilerplatecleanarchitecture.presentation.base;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.MenuItem;
 import com.chusobadenas.boilerplatecleanarchitecture.common.di.modules.ActivityModule;
 import com.chusobadenas.boilerplatecleanarchitecture.presentation.navigation.Navigator;
@@ -89,7 +90,7 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
 
   @Override
   public void onBackPressed() {
-    android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+    FragmentManager fragmentManager = getSupportFragmentManager();
 
     if (fragmentManager.getBackStackEntryCount() > 0) {
       fragmentManager.popBackStack();

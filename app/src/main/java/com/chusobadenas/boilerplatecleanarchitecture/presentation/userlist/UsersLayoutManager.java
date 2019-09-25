@@ -6,8 +6,8 @@
 package com.chusobadenas.boilerplatecleanarchitecture.presentation.userlist;
 
 import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Layout manager to position items inside a {@link RecyclerView}.

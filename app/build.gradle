@@ -3,15 +3,15 @@ apply plugin: 'net.saliman.cobertura'
 apply plugin: 'org.sonarqube'
 
 android {
-  compileSdkVersion 28
-  buildToolsVersion "28.0.3"
+  compileSdkVersion 29
+  buildToolsVersion "29.0.2"
 
   defaultConfig {
     applicationId "com.chusobadenas.boilerplatecleanarchitecture"
     minSdkVersion 19
-    targetSdkVersion 28
-    versionCode 4
-    versionName "2.0.1"
+    targetSdkVersion 29
+    versionCode 6
+    versionName "2.2"
   }
 
   buildTypes {
@@ -38,23 +38,23 @@ android {
 }
 
 dependencies {
-  final BUTTERKNIFE_VERSION = '9.0.0' // 10.1.0
-  final DAGGER_VERSION = '2.21'
+  final BUTTERKNIFE_VERSION = '10.2.0'
+  final DAGGER_VERSION = '2.24'
   final EASYMOCK_VERSION = '3.5'      // 4.0.2
-  final GLIDE_VERSION = '4.9.0'
+  final GLIDE_VERSION = '4.10.0'
   final JSR250_VERSION = '1.0'
   final JUNIT_VERSION = '4.12'
-  final MOCKITO_VERSION = '1.10.19'   // 2.25.0
-  final OKHTTP3_VERSION = '3.14.0'
-  final PLAY_SERVICES_VERSION = '16.1.0'
-  final POWERMOCK_VERSION = '1.6.6'
-  final RETROFIT_VERSION = '2.5.0'
-  final ROBOLECTRIC_VERSION = '3.5.1' // 4.2
+  final MOCKITO_VERSION = '1.10.19'   // 3.0.8
+  final OKHTTP3_VERSION = '3.14.3'
+  final PLAY_SERVICES_VERSION = '17.0.0'
+  final POWERMOCK_VERSION = '1.6.6'   // 2.0.2
+  final RETROFIT_VERSION = '2.6.1'
+  final ROBOLECTRIC_VERSION = '3.5.1' // 4.3
   final ROBOLECTRIC_SHADOWS_VERSION = '3.4-rc2'
   final RXANDROID_VERSION = '2.1.1'
-  final RXJAVA_VERSION = '2.2.7'
+  final RXJAVA_VERSION = '2.2.12'
   final TIMBER_VERSION = '4.7.1'
-  final SUPPORT_LIBRARY_VERSION = '28.0.0'
+  final ANDROIDX_VERSION = '1.1.0'
 
   implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -63,15 +63,15 @@ dependencies {
   annotationProcessor "com.google.dagger:dagger-android-processor:$DAGGER_VERSION"
   annotationProcessor "com.jakewharton:butterknife-compiler:$BUTTERKNIFE_VERSION"
 
-  implementation "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION"
-  implementation "com.android.support:animated-vector-drawable:$SUPPORT_LIBRARY_VERSION"
-  implementation "com.android.support:recyclerview-v7:$SUPPORT_LIBRARY_VERSION"
-  implementation "com.android.support:cardview-v7:$SUPPORT_LIBRARY_VERSION"
-  implementation "com.android.support:support-annotations:$SUPPORT_LIBRARY_VERSION"
-  implementation "com.android.support:support-media-compat:$SUPPORT_LIBRARY_VERSION"
-  implementation "com.android.support:support-v4:$SUPPORT_LIBRARY_VERSION"
-  implementation "com.android.support:percent:$SUPPORT_LIBRARY_VERSION"
-  implementation "com.android.support:design:$SUPPORT_LIBRARY_VERSION"
+  implementation "androidx.appcompat:appcompat:$ANDROIDX_VERSION"
+  implementation "androidx.vectordrawable:vectordrawable-animated:$ANDROIDX_VERSION"
+  implementation "androidx.recyclerview:recyclerview:1.0.0"
+  implementation "androidx.cardview:cardview:1.0.0"
+  implementation "androidx.annotation:annotation:$ANDROIDX_VERSION"
+  implementation "androidx.media:media:$ANDROIDX_VERSION"
+  implementation "androidx.legacy:legacy-support-v4:1.0.0"
+  implementation "androidx.percentlayout:percentlayout:1.0.0"
+  implementation "com.google.android.material:material:1.0.0"
   implementation "com.github.bumptech.glide:glide:$GLIDE_VERSION"
   implementation "com.google.android.gms:play-services-gcm:$PLAY_SERVICES_VERSION"
   implementation "com.google.dagger:dagger:$DAGGER_VERSION"
@@ -111,7 +111,7 @@ sonarqube {
     property "sonar.sourceEncoding", "UTF-8"
     property "sonar.projectName", "Boilerplate Clean Architecture Android"
     property "sonar.projectKey", "com.chusobadenas.boilerplatecleanarchitecture:boilerplatecleanarchitecture-android"
-    property "sonar.projectVersion", "2.0.1"
+    property "sonar.projectVersion", "2.2"
     property "sonar.java.libraries", project.android.applicationVariants.toList().first().javaCompile.classpath
     property "sonar.sources", "."
     property "sonar.exclusions", "build/**,src/androidTest/java/**,src/test/java/**"
