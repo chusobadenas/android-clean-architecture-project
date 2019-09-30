@@ -10,8 +10,8 @@ android {
     applicationId "com.chusobadenas.boilerplatecleanarchitecture"
     minSdkVersion 19
     targetSdkVersion 29
-    versionCode 6
-    versionName "2.2"
+    versionCode 7
+    versionName "2.1.1"
   }
 
   buildTypes {
@@ -40,21 +40,21 @@ android {
 dependencies {
   final BUTTERKNIFE_VERSION = '10.2.0'
   final DAGGER_VERSION = '2.24'
-  final EASYMOCK_VERSION = '3.5'      // 4.0.2
+  final EASYMOCK_VERSION = '4.0.2'
   final GLIDE_VERSION = '4.10.0'
   final JSR250_VERSION = '1.0'
   final JUNIT_VERSION = '4.12'
-  final MOCKITO_VERSION = '1.10.19'   // 3.0.8
+  final MOCKITO_VERSION = '3.0.0'
   final OKHTTP3_VERSION = '3.14.3'
   final PLAY_SERVICES_VERSION = '17.0.0'
-  final POWERMOCK_VERSION = '1.6.6'   // 2.0.2
+  final POWERMOCK_VERSION = '2.0.2'
   final RETROFIT_VERSION = '2.6.1'
-  final ROBOLECTRIC_VERSION = '3.5.1' // 4.3
-  final ROBOLECTRIC_SHADOWS_VERSION = '3.4-rc2'
+  final ROBOLECTRIC_VERSION = '4.3'
   final RXANDROID_VERSION = '2.1.1'
   final RXJAVA_VERSION = '2.2.12'
   final TIMBER_VERSION = '4.7.1'
   final ANDROIDX_VERSION = '1.1.0'
+  final ANDROIDX_TEST_VERSION = '1.2.0'
 
   implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -94,11 +94,11 @@ dependencies {
   testImplementation "junit:junit:$JUNIT_VERSION"
   testImplementation "org.easymock:easymock:$EASYMOCK_VERSION"
   testImplementation "org.mockito:mockito-core:$MOCKITO_VERSION"
-  testImplementation "org.powermock:powermock-api-mockito:$POWERMOCK_VERSION"
+  testImplementation "org.powermock:powermock-api-mockito2:$POWERMOCK_VERSION"
   testImplementation "org.powermock:powermock-api-easymock:$POWERMOCK_VERSION"
   testImplementation "org.powermock:powermock-module-junit4:$POWERMOCK_VERSION"
   testImplementation "org.robolectric:robolectric:$ROBOLECTRIC_VERSION"
-  testImplementation "org.robolectric:shadows-support-v4:$ROBOLECTRIC_SHADOWS_VERSION"
+  testImplementation "androidx.test:core:$ANDROIDX_TEST_VERSION"
 }
 
 cobertura {
