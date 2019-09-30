@@ -1,14 +1,12 @@
 package com.chusobadenas.boilerplatecleanarchitecture.presentation.navigation;
 
 import android.content.ActivityNotFoundException;
-
+import androidx.test.core.app.ApplicationProvider;
 import com.chusobadenas.boilerplatecleanarchitecture.AndroidApplicationTest;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import static org.junit.Assert.fail;
@@ -27,7 +25,7 @@ public class NavigatorTest {
   @Test
   public void testNavigateToUserListSuccess() {
     try {
-      navigator.navigateToUserList(RuntimeEnvironment.application);
+      navigator.navigateToUserList(ApplicationProvider.getApplicationContext());
     } catch (ActivityNotFoundException exception) {
       fail("UserListActivity not found");
     }
@@ -36,7 +34,7 @@ public class NavigatorTest {
   @Test
   public void testNavigateToUserDetailsSuccess() {
     try {
-      navigator.navigateToUserDetails(RuntimeEnvironment.application, 1);
+      navigator.navigateToUserDetails(ApplicationProvider.getApplicationContext(), 1);
     } catch (ActivityNotFoundException exception) {
       fail("UserDetailsActivity not found");
     }
