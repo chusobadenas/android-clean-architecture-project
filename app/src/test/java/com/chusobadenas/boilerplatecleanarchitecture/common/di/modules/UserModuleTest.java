@@ -3,12 +3,12 @@ package com.chusobadenas.boilerplatecleanarchitecture.common.di.modules;
 import com.chusobadenas.boilerplatecleanarchitecture.common.executor.PostExecutionThread;
 import com.chusobadenas.boilerplatecleanarchitecture.common.executor.ThreadExecutor;
 import com.chusobadenas.boilerplatecleanarchitecture.data.repository.UserDataRepository;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class UserModuleTest {
@@ -24,8 +24,13 @@ public class UserModuleTest {
 
   @Before
   public void setUp() {
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
     userModule = new UserModule();
+  }
+
+  @Test
+  public void testProvideUserRepositorySuccess() {
+    assertEquals(userModule.provideUserRepository(userDataRepository), userDataRepository);
   }
 
   @Test

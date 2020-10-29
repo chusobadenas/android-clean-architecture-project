@@ -1,10 +1,7 @@
 package com.chusobadenas.boilerplatecleanarchitecture.common.di.modules;
 
 import com.bumptech.glide.annotation.GlideModule;
+import com.bumptech.glide.module.AppGlideModule;
 
-/**
- * Glide module
- */
 @GlideModule
-public final class MyGlideModule extends com.bumptech.glide.module.AppGlideModule {
-}
+public final class MyGlideModule extends AppGlideModule {}

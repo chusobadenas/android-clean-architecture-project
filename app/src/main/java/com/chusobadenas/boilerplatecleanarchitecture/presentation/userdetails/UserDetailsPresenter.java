@@ -1,6 +1,6 @@
 package com.chusobadenas.boilerplatecleanarchitecture.presentation.userdetails;
 
-import com.chusobadenas.boilerplatecleanarchitecture.common.di.PerActivity;
+import androidx.annotation.NonNull;
 import com.chusobadenas.boilerplatecleanarchitecture.domain.User;
 import com.chusobadenas.boilerplatecleanarchitecture.domain.interactor.DefaultSubscriber;
 import com.chusobadenas.boilerplatecleanarchitecture.domain.interactor.UseCase;
@@ -16,15 +16,16 @@ import javax.inject.Named;
  * {@link Presenter} that controls communication between views and models of the presentation
  * layer.
  */
-@PerActivity
 public class UserDetailsPresenter extends BasePresenter<UserDetailsMvpView> {
 
   private final UseCase getUserDetailsUseCase;
   private final UserModelDataMapper userModelDataMapper;
 
   @Inject
-  public UserDetailsPresenter(@Named("userDetails") UseCase getUserDetailsUseCase, UserModelDataMapper
-      userModelDataMapper) {
+  public UserDetailsPresenter(
+      @Named("userDetails") UseCase getUserDetailsUseCase,
+      UserModelDataMapper userModelDataMapper
+  ) {
     this.getUserDetailsUseCase = getUserDetailsUseCase;
     this.userModelDataMapper = userModelDataMapper;
   }
@@ -71,7 +72,7 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsMvpView> {
     }
 
     @Override
-    public void onNext(User user) {
+    public void onNext(@NonNull User user) {
       getMvpView().hideLoading();
       showUserDetailsInView(user);
     }

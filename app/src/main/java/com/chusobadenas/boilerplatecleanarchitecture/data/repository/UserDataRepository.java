@@ -5,19 +5,15 @@ import com.chusobadenas.boilerplatecleanarchitecture.data.entity.mapper.UserEnti
 import com.chusobadenas.boilerplatecleanarchitecture.data.repository.remote.APIService;
 import com.chusobadenas.boilerplatecleanarchitecture.domain.User;
 import com.chusobadenas.boilerplatecleanarchitecture.domain.repository.UserRepository;
-
-import java.util.List;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
+
+import javax.inject.Inject;
+import java.util.*;
 
 /**
  * {@link UserRepository} for retrieving user data.
  */
-@Singleton
 public class UserDataRepository implements UserRepository {
 
   private final APIService apiService;
@@ -26,7 +22,7 @@ public class UserDataRepository implements UserRepository {
   /**
    * Constructs a {@link UserRepository}.
    *
-   * @param apiService           API service
+   * @param apiService API service
    * @param userEntityDataMapper User mapper
    */
   @Inject

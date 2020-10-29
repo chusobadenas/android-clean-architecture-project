@@ -3,7 +3,6 @@ package com.chusobadenas.boilerplatecleanarchitecture.presentation.userdetails;
 import com.chusobadenas.boilerplatecleanarchitecture.domain.interactor.DefaultSubscriber;
 import com.chusobadenas.boilerplatecleanarchitecture.domain.interactor.GetUserDetails;
 import com.chusobadenas.boilerplatecleanarchitecture.presentation.model.UserModelDataMapper;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -26,7 +25,7 @@ public class UserDetailsPresenterTest {
 
   @Before
   public void setUp() {
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
     userDetailsPresenter = new UserDetailsPresenter(getUserDetails, new UserModelDataMapper());
     userDetailsPresenter.attachView(userDetailsMvpView);
   }

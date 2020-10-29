@@ -1,19 +1,20 @@
 package com.chusobadenas.boilerplatecleanarchitecture.presentation.userlist;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.chusobadenas.boilerplatecleanarchitecture.R;
-import com.chusobadenas.boilerplatecleanarchitecture.common.di.ApplicationContext;
 import com.chusobadenas.boilerplatecleanarchitecture.common.util.UIUtils;
 import com.chusobadenas.boilerplatecleanarchitecture.presentation.model.UserModel;
+import dagger.hilt.android.qualifiers.ActivityContext;
+import dagger.hilt.android.scopes.ActivityScoped;
 
 import javax.inject.Inject;
 import java.util.*;
@@ -21,6 +22,7 @@ import java.util.*;
 /**
  * Adapter that manages a collection of {@link UserModel}.
  */
+@ActivityScoped
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHolder> {
 
   interface OnItemClickListener {
@@ -34,7 +36,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
   private OnItemClickListener onItemClickListener;
 
   @Inject
-  public UsersAdapter(@ApplicationContext Context context) {
+  public UsersAdapter(@ActivityContext Context context) {
     super();
     this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     this.usersCollection = Collections.emptyList();
@@ -58,12 +60,9 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
     final UserModel userModel = usersCollection.get(position);
     UIUtils.loadImageUrl(context, holder.userImage, getImageUrl(userModel.getFullName()));
     holder.textViewTitle.setText(userModel.getFullName());
-    holder.itemView.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        if (onItemClickListener != null) {
-          onItemClickListener.onUserItemClicked(userModel);
-        }
+    holder.itemView.setOnClickListener(view -> {
+      if (onItemClickListener != null) {
+        onItemClickListener.onUserItemClicked(userModel);
       }
     });
   }

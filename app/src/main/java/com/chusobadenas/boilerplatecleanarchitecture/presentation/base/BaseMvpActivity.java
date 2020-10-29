@@ -4,14 +4,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import androidx.annotation.Nullable;
-
 import com.chusobadenas.boilerplatecleanarchitecture.R;
 import com.chusobadenas.boilerplatecleanarchitecture.common.util.DialogFactory;
 import com.chusobadenas.boilerplatecleanarchitecture.common.util.DialogFactory.DialogType;
+import dagger.hilt.android.AndroidEntryPoint;
 
 /**
  * Base {@link Activity} class for MVP views.
  */
+@AndroidEntryPoint
 public abstract class BaseMvpActivity extends BaseActivity implements MvpView {
 
   /**

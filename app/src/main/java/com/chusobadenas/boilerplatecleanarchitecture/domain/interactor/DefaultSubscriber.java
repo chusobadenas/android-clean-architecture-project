@@ -1,5 +1,6 @@
 package com.chusobadenas.boilerplatecleanarchitecture.domain.interactor;
 
+import androidx.annotation.NonNull;
 import io.reactivex.observers.DisposableObserver;
 
 /**
@@ -13,7 +14,7 @@ public class DefaultSubscriber<T> extends DisposableObserver<T> {
   }
 
   @Override
-  public void onError(Throwable throwable) {
+  public void onError(@NonNull Throwable throwable) {
     // no-op by default.
   }
 

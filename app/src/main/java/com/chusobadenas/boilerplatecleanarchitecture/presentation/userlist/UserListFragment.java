@@ -2,13 +2,13 @@ package com.chusobadenas.boilerplatecleanarchitecture.presentation.userlist;
 
 import android.content.Context;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -16,6 +16,7 @@ import butterknife.Unbinder;
 import com.chusobadenas.boilerplatecleanarchitecture.R;
 import com.chusobadenas.boilerplatecleanarchitecture.presentation.base.BaseMvpFragment;
 import com.chusobadenas.boilerplatecleanarchitecture.presentation.model.UserModel;
+import dagger.hilt.android.AndroidEntryPoint;
 
 import javax.inject.Inject;
 import java.util.*;
@@ -23,6 +24,7 @@ import java.util.*;
 /**
  * Fragment that shows a list of Users.
  */
+@AndroidEntryPoint
 public class UserListFragment extends BaseMvpFragment implements UserListMvpView {
 
   /**
@@ -58,8 +60,8 @@ public class UserListFragment extends BaseMvpFragment implements UserListMvpView
   }
 
   @Override
-  public void onAttachToContext(Context context) {
-    super.onAttachToContext(context);
+  public void onAttach(@NonNull Context context) {
+    super.onAttach(context);
     if (context instanceof UserListListener) {
       userListListener = (UserListListener) context;
     }

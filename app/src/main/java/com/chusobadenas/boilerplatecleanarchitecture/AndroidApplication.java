@@ -1,19 +1,7 @@
 package com.chusobadenas.boilerplatecleanarchitecture;
 
-import com.chusobadenas.boilerplatecleanarchitecture.common.di.components.DaggerApplicationComponent;
-import dagger.android.AndroidInjector;
-import dagger.android.DaggerApplication;
+import android.app.Application;
+import dagger.hilt.android.HiltAndroidApp;
 
-/**
- * Android Main Application
- */
-public class AndroidApplication extends DaggerApplication {
-
-  @Override
-  protected AndroidInjector<? extends DaggerApplication> applicationInjector() {
-    return DaggerApplicationComponent
-        .builder()
-        .application(this)
-        .build();
-  }
-}
+@HiltAndroidApp
+public class AndroidApplication extends Application {}

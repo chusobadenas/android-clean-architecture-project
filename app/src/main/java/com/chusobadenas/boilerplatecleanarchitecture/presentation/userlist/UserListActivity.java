@@ -10,10 +10,12 @@ import com.chusobadenas.boilerplatecleanarchitecture.R;
 import com.chusobadenas.boilerplatecleanarchitecture.presentation.base.BaseActivity;
 import com.chusobadenas.boilerplatecleanarchitecture.presentation.model.UserModel;
 import com.chusobadenas.boilerplatecleanarchitecture.presentation.userlist.UserListFragment.UserListListener;
+import dagger.hilt.android.AndroidEntryPoint;
 
 /**
  * Activity that shows a list of Users.
  */
+@AndroidEntryPoint
 public class UserListActivity extends BaseActivity implements UserListListener {
 
   @BindView(R.id.toolbar)

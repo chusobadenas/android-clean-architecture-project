@@ -1,9 +1,7 @@
 package com.chusobadenas.boilerplatecleanarchitecture.common.exception;
 
 import android.content.Context;
-
 import com.chusobadenas.boilerplatecleanarchitecture.R;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -20,7 +18,7 @@ public class DefaultErrorBundleTest {
 
   @Before
   public void setUp() {
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
     when(context.getString(R.string.error_message_generic)).thenReturn("An error has occurred");
   }
 

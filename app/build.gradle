@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'dagger.hilt.android.plugin'
 
 android {
   compileSdkVersion 30
@@ -50,11 +51,6 @@ dependencies {
 
   implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-  annotationProcessor "com.github.bumptech.glide:compiler:$GLIDE_VERSION"
-  annotationProcessor "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
-  annotationProcessor "com.google.dagger:dagger-android-processor:$DAGGER_VERSION"
-  annotationProcessor "com.jakewharton:butterknife-compiler:$BUTTERKNIFE_VERSION"
-
   implementation "androidx.appcompat:appcompat:$ANDROIDX_VERSION"
   implementation "androidx.vectordrawable:vectordrawable-animated:1.1.0"
   implementation "androidx.recyclerview:recyclerview:1.1.0"
@@ -68,16 +64,21 @@ dependencies {
   implementation "com.google.android.gms:play-services-gcm:$PLAY_SERVICES_VERSION"
   implementation "com.google.dagger:dagger:$DAGGER_VERSION"
   implementation "com.google.dagger:dagger-android:$DAGGER_VERSION"
-  implementation "com.google.dagger:dagger-android-support:$DAGGER_VERSION"
+  implementation "com.google.dagger:hilt-android:$DAGGER_HILT_VERSION"
   implementation "com.jakewharton:butterknife:$BUTTERKNIFE_VERSION"
   implementation "com.jakewharton.timber:timber:$TIMBER_VERSION"
   implementation "com.squareup.okhttp3:logging-interceptor:$OKHTTP3_VERSION"
   implementation "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
   implementation "com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION"
   implementation "com.squareup.retrofit2:adapter-rxjava2:$RETROFIT_VERSION"
-
   implementation "io.reactivex.rxjava2:rxjava:$RXJAVA_VERSION"
   implementation "io.reactivex.rxjava2:rxandroid:$RXANDROID_VERSION"
+
+  annotationProcessor "com.github.bumptech.glide:compiler:$GLIDE_VERSION"
+  annotationProcessor "com.google.dagger:dagger-android-processor:$DAGGER_VERSION"
+  annotationProcessor "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
+  annotationProcessor "com.google.dagger:hilt-android-compiler:$DAGGER_HILT_VERSION"
+  annotationProcessor "com.jakewharton:butterknife-compiler:$BUTTERKNIFE_VERSION"
 
   compileOnly "javax.annotation:jsr250-api:$JSR250_VERSION"
 
@@ -90,6 +91,7 @@ dependencies {
   final ROBOLECTRIC_VERSION = '4.4'
 
   testImplementation "androidx.test:core:$ANDROIDX_TEST_VERSION"
+  testImplementation "com.google.dagger:hilt-android-testing:$DAGGER_HILT_VERSION"
   testImplementation "junit:junit:$JUNIT_VERSION"
   testImplementation "org.easymock:easymock:$EASYMOCK_VERSION"
   testImplementation "org.mockito:mockito-core:$MOCKITO_VERSION"
@@ -97,4 +99,6 @@ dependencies {
   testImplementation "org.powermock:powermock-api-easymock:$POWERMOCK_VERSION"
   testImplementation "org.powermock:powermock-module-junit4:$POWERMOCK_VERSION"
   testImplementation "org.robolectric:robolectric:$ROBOLECTRIC_VERSION"
+
+  testAnnotationProcessor "com.google.dagger:hilt-android-compiler:$DAGGER_HILT_VERSION"
 }

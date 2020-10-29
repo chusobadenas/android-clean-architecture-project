@@ -1,7 +1,6 @@
 package com.chusobadenas.boilerplatecleanarchitecture.presentation.userdetails;
 
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -17,12 +17,14 @@ import com.chusobadenas.boilerplatecleanarchitecture.R;
 import com.chusobadenas.boilerplatecleanarchitecture.common.util.UIUtils;
 import com.chusobadenas.boilerplatecleanarchitecture.presentation.base.BaseMvpFragment;
 import com.chusobadenas.boilerplatecleanarchitecture.presentation.model.UserModel;
+import dagger.hilt.android.AndroidEntryPoint;
 
 import javax.inject.Inject;
 
 /**
  * Fragment that shows details of a certain user.
  */
+@AndroidEntryPoint
 public class UserDetailsFragment extends BaseMvpFragment implements UserDetailsMvpView {
 
   @Inject

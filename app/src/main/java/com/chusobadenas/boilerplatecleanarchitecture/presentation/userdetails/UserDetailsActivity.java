@@ -3,16 +3,19 @@ package com.chusobadenas.boilerplatecleanarchitecture.presentation.userdetails;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.chusobadenas.boilerplatecleanarchitecture.R;
 import com.chusobadenas.boilerplatecleanarchitecture.presentation.base.BaseActivity;
+import dagger.hilt.android.AndroidEntryPoint;
 
 /**
  * Activity that shows details of a certain user.
  */
+@AndroidEntryPoint
 public class UserDetailsActivity extends BaseActivity {
 
   private static final String INTENT_EXTRA_PARAM_USER_ID = "org.android10.INTENT_PARAM_USER_ID";
@@ -43,11 +46,10 @@ public class UserDetailsActivity extends BaseActivity {
   }
 
   @Override
-  protected void onSaveInstanceState(Bundle outState) {
+  protected void onSaveInstanceState(@NonNull Bundle outState) {
     if (outState != null) {
       outState.putInt(INSTANCE_STATE_PARAM_USER_ID, this.userId);
     }
-
     super.onSaveInstanceState(outState);
   }
 

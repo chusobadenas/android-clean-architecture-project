@@ -1,6 +1,5 @@
 package com.chusobadenas.boilerplatecleanarchitecture.presentation.model;
 
-import com.chusobadenas.boilerplatecleanarchitecture.common.di.PerActivity;
 import com.chusobadenas.boilerplatecleanarchitecture.domain.User;
 
 import java.util.ArrayList;
@@ -13,7 +12,6 @@ import javax.inject.Inject;
  * Mapper class used to transform {@link User} (in the domain layer) to {@link UserModel} in the
  * presentation layer.
  */
-@PerActivity
 public class UserModelDataMapper {
 
   @Inject

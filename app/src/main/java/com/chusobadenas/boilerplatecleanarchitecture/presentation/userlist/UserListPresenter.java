@@ -1,6 +1,6 @@
 package com.chusobadenas.boilerplatecleanarchitecture.presentation.userlist;
 
-import com.chusobadenas.boilerplatecleanarchitecture.common.di.PerActivity;
+import androidx.annotation.NonNull;
 import com.chusobadenas.boilerplatecleanarchitecture.domain.User;
 import com.chusobadenas.boilerplatecleanarchitecture.domain.interactor.DefaultSubscriber;
 import com.chusobadenas.boilerplatecleanarchitecture.domain.interactor.UseCase;
@@ -9,24 +9,24 @@ import com.chusobadenas.boilerplatecleanarchitecture.presentation.base.Presenter
 import com.chusobadenas.boilerplatecleanarchitecture.presentation.model.UserModel;
 import com.chusobadenas.boilerplatecleanarchitecture.presentation.model.UserModelDataMapper;
 
-import java.util.Collection;
-import java.util.List;
-
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.*;
 
 /**
  * {@link Presenter} that controls communication between views and models of the presentation
  * layer.
  */
-@PerActivity
 public class UserListPresenter extends BasePresenter<UserListMvpView> {
 
   private final UseCase getUserListUseCase;
   private final UserModelDataMapper userModelDataMapper;
 
   @Inject
-  public UserListPresenter(@Named("userList") UseCase getUserListUserCase, UserModelDataMapper userModelDataMapper) {
+  public UserListPresenter(
+      @Named("userList") UseCase getUserListUserCase,
+      UserModelDataMapper userModelDataMapper
+  ) {
     this.getUserListUseCase = getUserListUserCase;
     this.userModelDataMapper = userModelDataMapper;
   }
@@ -78,7 +78,7 @@ public class UserListPresenter extends BasePresenter<UserListMvpView> {
     }
 
     @Override
-    public void onNext(List<User> users) {
+    public void onNext(@NonNull List<User> users) {
       getMvpView().hideLoading();
       showUsersCollectionInView(users);
     }
