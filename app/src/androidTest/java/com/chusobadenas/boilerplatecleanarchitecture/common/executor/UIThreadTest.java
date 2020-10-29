@@ -1,16 +1,12 @@
 package com.chusobadenas.boilerplatecleanarchitecture.common.executor;
 
-import com.chusobadenas.boilerplatecleanarchitecture.AndroidApplicationTest;
-
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
 
 import static org.junit.Assert.assertNotNull;
 
-@RunWith(RobolectricTestRunner.class)
-@Config(application = AndroidApplicationTest.class, sdk = 27)
+@RunWith(AndroidJUnit4.class)
 public class UIThreadTest {
 
   @Test
