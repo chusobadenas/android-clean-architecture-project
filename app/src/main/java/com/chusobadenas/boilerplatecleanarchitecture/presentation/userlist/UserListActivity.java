@@ -4,22 +4,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import com.chusobadenas.boilerplatecleanarchitecture.R;
+import com.chusobadenas.boilerplatecleanarchitecture.databinding.ActivityLayoutBinding;
 import com.chusobadenas.boilerplatecleanarchitecture.presentation.base.BaseActivity;
 import com.chusobadenas.boilerplatecleanarchitecture.presentation.model.UserModel;
 import com.chusobadenas.boilerplatecleanarchitecture.presentation.userlist.UserListFragment.UserListListener;
 import dagger.hilt.android.AndroidEntryPoint;
 
-/**
- * Activity that shows a list of Users.
- */
 @AndroidEntryPoint
 public class UserListActivity extends BaseActivity implements UserListListener {
 
-  @BindView(R.id.toolbar)
-  Toolbar toolbar;
+  private ActivityLayoutBinding binding;
 
   public static Intent getCallingIntent(Context context) {
     return new Intent(context, UserListActivity.class);
@@ -28,12 +23,17 @@ public class UserListActivity extends BaseActivity implements UserListListener {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_layout);
-    ButterKnife.bind(this);
-    setSupportActionBar(toolbar);
+    binding = ActivityLayoutBinding.inflate(getLayoutInflater());
+    setContentView(binding.getRoot());
+    setupToolbar();
     if (savedInstanceState == null) {
       addFragment(R.id.fragmentContainer, UserListFragment.newInstance());
     }
+  }
+
+  private void setupToolbar() {
+    Toolbar toolbar = binding.getRoot().findViewById(R.id.toolbar);
+    setSupportActionBar(toolbar);
   }
 
   @Override

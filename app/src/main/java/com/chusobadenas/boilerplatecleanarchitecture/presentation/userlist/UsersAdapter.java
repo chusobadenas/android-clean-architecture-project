@@ -2,16 +2,11 @@ package com.chusobadenas.boilerplatecleanarchitecture.presentation.userlist;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import com.chusobadenas.boilerplatecleanarchitecture.R;
 import com.chusobadenas.boilerplatecleanarchitecture.common.util.UIUtils;
+import com.chusobadenas.boilerplatecleanarchitecture.databinding.ItemUserBinding;
 import com.chusobadenas.boilerplatecleanarchitecture.presentation.model.UserModel;
 import dagger.hilt.android.qualifiers.ActivityContext;
 import dagger.hilt.android.scopes.ActivityScoped;
@@ -32,7 +27,6 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
 
   private List<UserModel> usersCollection;
   private final LayoutInflater layoutInflater;
-
   private OnItemClickListener onItemClickListener;
 
   @Inject
@@ -50,16 +44,16 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
   @NonNull
   @Override
   public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-    final View view = layoutInflater.inflate(R.layout.item_user, parent, false);
-    return new UserViewHolder(view);
+    ItemUserBinding binding = ItemUserBinding.inflate(layoutInflater, parent, false);
+    return new UserViewHolder(binding);
   }
 
   @Override
   public void onBindViewHolder(@NonNull UserViewHolder holder, final int position) {
     Context context = holder.itemView.getContext();
     final UserModel userModel = usersCollection.get(position);
-    UIUtils.loadImageUrl(context, holder.userImage, getImageUrl(userModel.getFullName()));
-    holder.textViewTitle.setText(userModel.getFullName());
+    UIUtils.loadImageUrl(context, holder.binding.imageUser, getImageUrl(userModel.getFullName()));
+    holder.binding.textName.setText(userModel.getFullName());
     holder.itemView.setOnClickListener(view -> {
       if (onItemClickListener != null) {
         onItemClickListener.onUserItemClicked(userModel);
@@ -114,15 +108,11 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
 
   static class UserViewHolder extends RecyclerView.ViewHolder {
 
-    @BindView(R.id.image_user)
-    ImageView userImage;
+    private final ItemUserBinding binding;
 
-    @BindView(R.id.text_name)
-    TextView textViewTitle;
-
-    UserViewHolder(View itemView) {
-      super(itemView);
-      ButterKnife.bind(this, itemView);
+    UserViewHolder(ItemUserBinding binding) {
+      super(binding.getRoot());
+      this.binding = binding;
     }
   }
 }
