@@ -5,10 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import com.chusobadenas.boilerplatecleanarchitecture.R;
 import com.chusobadenas.boilerplatecleanarchitecture.common.util.UIUtils;
 import com.chusobadenas.boilerplatecleanarchitecture.databinding.FragmentUserDetailsBinding;
@@ -25,9 +24,9 @@ public class UserDetailsFragment extends BaseMvpFragment implements UserDetailsM
   UserDetailsPresenter userDetailsPresenter;
 
   private FragmentUserDetailsBinding binding;
-  private LinearLayout viewUserDetail;
-  private RelativeLayout viewProgress;
-  private RelativeLayout viewRetry;
+  private ConstraintLayout viewUserDetail;
+  private ConstraintLayout viewProgress;
+  private ConstraintLayout viewRetry;
 
   public static UserDetailsFragment newInstance(int userId) {
     UserDetailsFragment fragment = new UserDetailsFragment();

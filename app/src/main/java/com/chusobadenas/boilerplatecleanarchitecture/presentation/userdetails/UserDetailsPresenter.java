@@ -65,7 +65,7 @@ public class UserDetailsPresenter extends BasePresenter<UserDetailsMvpView> {
   private final class UserDetailsSubscriber extends DefaultSubscriber<User> {
 
     @Override
-    public void onError(Throwable throwable) {
+    public void onError(@NonNull Throwable throwable) {
       getMvpView().hideLoading();
       showErrorMessage(throwable, "Error loading user details", null);
       getMvpView().showRetry();

@@ -71,7 +71,7 @@ public class UserListPresenter extends BasePresenter<UserListMvpView> {
   private final class UserListSubscriber extends DefaultSubscriber<List<User>> {
 
     @Override
-    public void onError(Throwable throwable) {
+    public void onError(@NonNull Throwable throwable) {
       getMvpView().hideLoading();
       showErrorMessage(throwable, "Error loading user list", null);
       getMvpView().showRetry();

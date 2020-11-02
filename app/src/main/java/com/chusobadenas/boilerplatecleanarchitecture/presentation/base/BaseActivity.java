@@ -20,13 +20,6 @@ public abstract class BaseActivity extends AppCompatActivity {
   protected Navigator navigator;
 
   /**
-   * @return the {@link Navigator}
-   */
-  public Navigator getNavigator() {
-    return navigator;
-  }
-
-  /**
    * Adds a {@link Fragment} to this activity's layout.
    *
    * @param containerViewId The container view to where add the fragment.

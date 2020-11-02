@@ -46,7 +46,6 @@ dependencies {
   final DAGGER_VERSION = '2.29.1'
   final GLIDE_VERSION = '4.11.0'
   final OKHTTP3_VERSION = '4.9.0'
-  final PLAY_SERVICES_VERSION = '17.0.0'
   final RETROFIT_VERSION = '2.9.0'
   final RXANDROID_VERSION = '2.1.1'
   final RXJAVA_VERSION = '2.2.19'
@@ -61,7 +60,6 @@ dependencies {
   implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
   implementation "com.google.android.material:material:1.2.1"
   implementation "com.github.bumptech.glide:glide:$GLIDE_VERSION"
-  implementation "com.google.android.gms:play-services-gcm:$PLAY_SERVICES_VERSION"
   implementation "com.google.dagger:dagger:$DAGGER_VERSION"
   implementation "com.google.dagger:dagger-android:$DAGGER_VERSION"
   implementation "com.google.dagger:hilt-android:$DAGGER_HILT_VERSION"

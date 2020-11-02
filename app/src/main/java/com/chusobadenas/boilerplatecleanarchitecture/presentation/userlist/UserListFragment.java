@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import com.chusobadenas.boilerplatecleanarchitecture.R;
 import com.chusobadenas.boilerplatecleanarchitecture.databinding.FragmentUserListBinding;
 import com.chusobadenas.boilerplatecleanarchitecture.presentation.base.BaseMvpFragment;
@@ -30,8 +30,8 @@ public class UserListFragment extends BaseMvpFragment implements UserListMvpView
   UsersAdapter usersAdapter;
 
   private FragmentUserListBinding binding;
-  private RelativeLayout viewProgress;
-  private RelativeLayout viewRetry;
+  private ConstraintLayout viewProgress;
+  private ConstraintLayout viewRetry;
   private UserListListener userListListener;
 
   public static UserListFragment newInstance() {
