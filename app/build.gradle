@@ -1,17 +1,17 @@
 apply plugin: 'com.android.application'
-apply plugin: 'net.saliman.cobertura'
-apply plugin: 'org.sonarqube'
+apply plugin: 'dagger.hilt.android.plugin'
 
 android {
-  compileSdkVersion 29
-  buildToolsVersion "29.0.2"
+  compileSdkVersion 30
+  buildToolsVersion "30.0.2"
 
   defaultConfig {
     applicationId "com.chusobadenas.boilerplatecleanarchitecture"
-    minSdkVersion 19
-    targetSdkVersion 29
-    versionCode 7
-    versionName "2.1.1"
+    minSdkVersion 23
+    targetSdkVersion 30
+    versionCode 8
+    versionName "3.0"
+    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
   }
 
   buildTypes {
@@ -35,93 +35,72 @@ android {
       includeAndroidResources = true
     }
   }
+
+  viewBinding {
+    enabled = true
+  }
 }
 
 dependencies {
-  final BUTTERKNIFE_VERSION = '10.2.0'
-  final DAGGER_VERSION = '2.24'
-  final EASYMOCK_VERSION = '4.0.2'
-  final GLIDE_VERSION = '4.10.0'
-  final JSR250_VERSION = '1.0'
-  final JUNIT_VERSION = '4.12'
-  final MOCKITO_VERSION = '3.0.0'
-  final OKHTTP3_VERSION = '3.14.3'
-  final PLAY_SERVICES_VERSION = '17.0.0'
-  final POWERMOCK_VERSION = '2.0.2'
-  final RETROFIT_VERSION = '2.6.1'
-  final ROBOLECTRIC_VERSION = '4.3'
+  final ANDROIDX_VERSION = '1.2.0'
+  final DAGGER_VERSION = '2.29.1'
+  final GLIDE_VERSION = '4.11.0'
+  final OKHTTP3_VERSION = '4.9.0'
+  final RETROFIT_VERSION = '2.9.0'
   final RXANDROID_VERSION = '2.1.1'
-  final RXJAVA_VERSION = '2.2.12'
+  final RXJAVA_VERSION = '2.2.19'
   final TIMBER_VERSION = '4.7.1'
-  final ANDROIDX_VERSION = '1.1.0'
-  final ANDROIDX_TEST_VERSION = '1.2.0'
 
   implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-  annotationProcessor "com.github.bumptech.glide:compiler:$GLIDE_VERSION"
-  annotationProcessor "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
-  annotationProcessor "com.google.dagger:dagger-android-processor:$DAGGER_VERSION"
-  annotationProcessor "com.jakewharton:butterknife-compiler:$BUTTERKNIFE_VERSION"
-
   implementation "androidx.appcompat:appcompat:$ANDROIDX_VERSION"
-  implementation "androidx.vectordrawable:vectordrawable-animated:$ANDROIDX_VERSION"
-  implementation "androidx.recyclerview:recyclerview:1.0.0"
   implementation "androidx.cardview:cardview:1.0.0"
-  implementation "androidx.annotation:annotation:$ANDROIDX_VERSION"
-  implementation "androidx.media:media:$ANDROIDX_VERSION"
-  implementation "androidx.legacy:legacy-support-v4:1.0.0"
-  implementation "androidx.percentlayout:percentlayout:1.0.0"
-  implementation "com.google.android.material:material:1.0.0"
+  implementation "androidx.constraintlayout:constraintlayout:2.0.2"
+  implementation "androidx.recyclerview:recyclerview:1.1.0"
+  implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+  implementation "com.google.android.material:material:1.2.1"
   implementation "com.github.bumptech.glide:glide:$GLIDE_VERSION"
-  implementation "com.google.android.gms:play-services-gcm:$PLAY_SERVICES_VERSION"
   implementation "com.google.dagger:dagger:$DAGGER_VERSION"
   implementation "com.google.dagger:dagger-android:$DAGGER_VERSION"
-  implementation "com.google.dagger:dagger-android-support:$DAGGER_VERSION"
-  implementation "com.jakewharton:butterknife:$BUTTERKNIFE_VERSION"
+  implementation "com.google.dagger:hilt-android:$DAGGER_HILT_VERSION"
   implementation "com.jakewharton.timber:timber:$TIMBER_VERSION"
   implementation "com.squareup.okhttp3:logging-interceptor:$OKHTTP3_VERSION"
   implementation "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
   implementation "com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION"
   implementation "com.squareup.retrofit2:adapter-rxjava2:$RETROFIT_VERSION"
-
   implementation "io.reactivex.rxjava2:rxjava:$RXJAVA_VERSION"
   implementation "io.reactivex.rxjava2:rxandroid:$RXANDROID_VERSION"
 
-  compileOnly "javax.annotation:jsr250-api:$JSR250_VERSION"
+  annotationProcessor "com.github.bumptech.glide:compiler:$GLIDE_VERSION"
+  annotationProcessor "com.google.dagger:dagger-android-processor:$DAGGER_VERSION"
+  annotationProcessor "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
+  annotationProcessor "com.google.dagger:hilt-android-compiler:$DAGGER_HILT_VERSION"
 
   // Test Dependencies
-  androidTestImplementation "junit:junit:$JUNIT_VERSION"
+  final ANDROIDX_JUNIT_VERSION = '1.1.3-alpha02'
+  final ANDROIDX_TEST_VERSION = '1.3.0'
+  final ARCH_CORE_TEST_VERSION = '2.1.0'
+  final EASYMOCK_VERSION = '4.2'
+  final ESPRESSO_VERSION = '3.4.0-alpha02'
+  final JUNIT_VERSION = '4.13.1'
+  final MOCKITO_VERSION = '3.5.13'
+  final POWERMOCK_VERSION = '2.0.7'
+
+  androidTestImplementation "androidx.test:core:$ANDROIDX_TEST_VERSION"
+  androidTestImplementation "androidx.test:rules:$ANDROIDX_TEST_VERSION"
+  androidTestImplementation "androidx.test:runner:$ANDROIDX_TEST_VERSION"
+  androidTestImplementation "androidx.test.espresso:espresso-core:$ESPRESSO_VERSION"
+  androidTestImplementation "androidx.test.espresso:espresso-contrib:$ESPRESSO_VERSION"
+  androidTestImplementation "androidx.test.ext:junit:$ANDROIDX_JUNIT_VERSION"
+
+  testImplementation "androidx.arch.core:core-testing:$ARCH_CORE_TEST_VERSION"
+  testImplementation "com.google.dagger:hilt-android-testing:$DAGGER_HILT_VERSION"
   testImplementation "junit:junit:$JUNIT_VERSION"
   testImplementation "org.easymock:easymock:$EASYMOCK_VERSION"
   testImplementation "org.mockito:mockito-core:$MOCKITO_VERSION"
   testImplementation "org.powermock:powermock-api-mockito2:$POWERMOCK_VERSION"
   testImplementation "org.powermock:powermock-api-easymock:$POWERMOCK_VERSION"
   testImplementation "org.powermock:powermock-module-junit4:$POWERMOCK_VERSION"
-  testImplementation "org.robolectric:robolectric:$ROBOLECTRIC_VERSION"
-  testImplementation "androidx.test:core:$ANDROIDX_TEST_VERSION"
-}
 
-cobertura {
-  auxiliaryClasspath = files("${project.buildDir}/intermediates/classes/debug")
-  coverageFormats = ['xml']
-}
-
-sonarqube {
-  properties {
-    property "sonar.sourceEncoding", "UTF-8"
-    property "sonar.projectName", "Boilerplate Clean Architecture Android"
-    property "sonar.projectKey", "com.chusobadenas.boilerplatecleanarchitecture:boilerplatecleanarchitecture-android"
-    property "sonar.projectVersion", "2.2"
-    property "sonar.java.libraries", project.android.applicationVariants.toList().first().javaCompile.classpath
-    property "sonar.sources", "."
-    property "sonar.exclusions", "build/**,src/androidTest/java/**,src/test/java/**"
-    property "sonar.tests", "src/test/java"
-    property "sonar.junit.reportsPath", "${project.buildDir}/test-results/testDebugUnitTest/debug"
-    property "sonar.cobertura.reportPath", "${project.buildDir}/reports/cobertura/coverage.xml"
-    property "sonar.android.lint.report", "${project.buildDir}/outputs/lint-results-debug.xml"
-    property "sonar.java.binaries", "${project.buildDir}/intermediates/classes/debug"
-    property "sonar.java.test.binaries", "${project.buildDir}/intermediates/classes/test/debug"
-    property "sonar.scm.url", "https://bitbucket.org/chusobadenas/clean-architecture-project"
-    property "sonar.scm.enabled", "true"
-  }
+  testAnnotationProcessor "com.google.dagger:hilt-android-compiler:$DAGGER_HILT_VERSION"
 }

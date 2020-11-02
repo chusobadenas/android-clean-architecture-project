@@ -4,15 +4,16 @@ import android.content.Context;
 import android.content.DialogInterface;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import com.chusobadenas.boilerplatecleanarchitecture.R;
 import com.chusobadenas.boilerplatecleanarchitecture.common.util.DialogFactory;
 import com.chusobadenas.boilerplatecleanarchitecture.common.util.DialogFactory.DialogType;
+import dagger.hilt.android.AndroidEntryPoint;
 
 /**
  * Base {@link Fragment} class for MVP views.
  */
-public abstract class BaseMvpFragment extends BaseFragment implements MvpView {
+@AndroidEntryPoint
+public abstract class BaseMvpFragment extends Fragment implements MvpView {
 
   /**
    * {@inheritDoc}

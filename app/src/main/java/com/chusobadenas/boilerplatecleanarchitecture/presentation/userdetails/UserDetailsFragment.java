@@ -1,77 +1,53 @@
-/**
- * Copyright (C) 2014 android10.org. All rights reserved.
- *
- * @author Fernando Cejas (the android10 coder)
- */
 package com.chusobadenas.boilerplatecleanarchitecture.presentation.userdetails;
 
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import com.chusobadenas.boilerplatecleanarchitecture.R;
 import com.chusobadenas.boilerplatecleanarchitecture.common.util.UIUtils;
+import com.chusobadenas.boilerplatecleanarchitecture.databinding.FragmentUserDetailsBinding;
 import com.chusobadenas.boilerplatecleanarchitecture.presentation.base.BaseMvpFragment;
 import com.chusobadenas.boilerplatecleanarchitecture.presentation.model.UserModel;
+import dagger.hilt.android.AndroidEntryPoint;
 
 import javax.inject.Inject;
 
-/**
- * Fragment that shows details of a certain user.
- */
+@AndroidEntryPoint
 public class UserDetailsFragment extends BaseMvpFragment implements UserDetailsMvpView {
 
   @Inject
   UserDetailsPresenter userDetailsPresenter;
 
-  @BindView(R.id.iv_cover)
-  ImageView imageViewCover;
-  @BindView(R.id.tv_fullname)
-  TextView textViewFullName;
-  @BindView(R.id.tv_email)
-  TextView textViewEmail;
-  @BindView(R.id.tv_followers)
-  TextView textViewFollowers;
-  @BindView(R.id.tv_description)
-  TextView textViewDescription;
-  @BindView(R.id.rl_progress)
-  RelativeLayout viewProgress;
-  @BindView(R.id.rl_retry)
-  RelativeLayout viewRetry;
-  @BindView(R.id.user_detail_view)
-  LinearLayout viewUserDetail;
+  private FragmentUserDetailsBinding binding;
+  private ConstraintLayout viewUserDetail;
+  private ConstraintLayout viewProgress;
+  private ConstraintLayout viewRetry;
 
-  private Unbinder unbinder;
-
-  /**
-   * Creates a new instance of a UserDetailsFragment.
-   */
-  public static UserDetailsFragment newInstance() {
-    return new UserDetailsFragment();
+  public static UserDetailsFragment newInstance(int userId) {
+    UserDetailsFragment fragment = new UserDetailsFragment();
+    Bundle extras = new Bundle();
+    extras.putInt(UserDetailsActivity.INTENT_EXTRA_PARAM_USER_ID, userId);
+    fragment.setArguments(extras);
+    return fragment;
   }
 
   @Override
-  public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-      Bundle savedInstanceState) {
-    final View fragmentView = inflater.inflate(R.layout.fragment_user_details, container, false);
-    unbinder = ButterKnife.bind(this, fragmentView);
+  public View onCreateView(
+      @NonNull LayoutInflater inflater,
+      ViewGroup container,
+      Bundle savedInstanceState
+  ) {
+    binding = FragmentUserDetailsBinding.inflate(inflater, container, false);
+
     userDetailsPresenter.attachView(this);
-    return fragmentView;
-  }
+    setupViews();
 
-  @Override
-  public void onDestroyView() {
-    super.onDestroyView();
-    unbinder.unbind();
+    return binding.getRoot();
   }
 
   @Override
@@ -89,11 +65,14 @@ public class UserDetailsFragment extends BaseMvpFragment implements UserDetailsM
   @Override
   public void renderUser(UserModel user) {
     if (user != null) {
+      View view = binding.getRoot();
+      ImageView imageViewCover = view.findViewById(R.id.iv_cover);
       UIUtils.loadImageUrl(context(), imageViewCover, user.getCoverUrl());
-      textViewFullName.setText(user.getFullName());
-      textViewEmail.setText(user.getEmail());
-      textViewFollowers.setText(String.valueOf(user.getFollowers()));
-      textViewDescription.setText(user.getDescription());
+
+      ((TextView) view.findViewById(R.id.tv_fullname)).setText(user.getFullName());
+      ((TextView) view.findViewById(R.id.tv_email)).setText(user.getEmail());
+      ((TextView) view.findViewById(R.id.tv_followers)).setText(String.valueOf(user.getFollowers()));
+      ((TextView) view.findViewById(R.id.tv_description)).setText(user.getDescription());
     }
   }
 
@@ -119,17 +98,26 @@ public class UserDetailsFragment extends BaseMvpFragment implements UserDetailsM
     viewRetry.setVisibility(View.GONE);
   }
 
-  /**
-   * Loads all users.
-   */
+  private void setupViews() {
+    // Detail view
+    viewUserDetail = binding.getRoot().findViewById(R.id.user_detail_view);
+    // Progress and retry
+    viewProgress = binding.getRoot().findViewById(R.id.rl_progress);
+    viewRetry = binding.getRoot().findViewById(R.id.rl_retry);
+    // Retry button
+    binding.getRoot().findViewById(R.id.bt_retry).setOnClickListener(view -> onButtonRetryClick());
+  }
+
   private void loadUserDetails() {
     if (userDetailsPresenter != null) {
-      int userId = ((UserDetailsActivity) getActivity()).getUserId();
-      userDetailsPresenter.initialize(userId);
+      Bundle arguments = getArguments();
+      if (arguments != null) {
+        int userId = arguments.getInt(UserDetailsActivity.INTENT_EXTRA_PARAM_USER_ID, -1);
+        userDetailsPresenter.initialize(userId);
+      }
     }
   }
 
-  @OnClick(R.id.bt_retry)
   void onButtonRetryClick() {
     loadUserDetails();
   }

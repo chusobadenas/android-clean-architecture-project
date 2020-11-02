@@ -4,17 +4,14 @@ import com.chusobadenas.boilerplatecleanarchitecture.data.entity.UserEntity;
 import com.chusobadenas.boilerplatecleanarchitecture.data.entity.mapper.UserEntityDataMapper;
 import com.chusobadenas.boilerplatecleanarchitecture.data.repository.remote.APIService;
 import com.chusobadenas.boilerplatecleanarchitecture.domain.User;
-
+import io.reactivex.Observable;
+import io.reactivex.observers.TestObserver;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import io.reactivex.Observable;
-import io.reactivex.observers.TestObserver;
+import java.util.*;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
@@ -29,7 +26,7 @@ public class UserDataRepositoryTest {
 
   @Before
   public void setUp() {
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
     userDataRepository = new UserDataRepository(apiService, new UserEntityDataMapper());
   }
 

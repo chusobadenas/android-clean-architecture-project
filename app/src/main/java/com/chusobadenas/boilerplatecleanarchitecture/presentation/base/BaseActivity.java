@@ -1,30 +1,23 @@
 package com.chusobadenas.boilerplatecleanarchitecture.presentation.base;
 
+import android.view.MenuItem;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.appcompat.app.AppCompatActivity;
-import android.view.MenuItem;
-import com.chusobadenas.boilerplatecleanarchitecture.common.di.modules.ActivityModule;
 import com.chusobadenas.boilerplatecleanarchitecture.presentation.navigation.Navigator;
-import dagger.android.support.DaggerAppCompatActivity;
+import dagger.hilt.android.AndroidEntryPoint;
 
 import javax.inject.Inject;
 
 /**
  * Base {@link AppCompatActivity} class for every Activity in this application.
  */
-public abstract class BaseActivity extends DaggerAppCompatActivity {
+@AndroidEntryPoint
+public abstract class BaseActivity extends AppCompatActivity {
 
   @Inject
   protected Navigator navigator;
-
-  /**
-   * @return the {@link Navigator}
-   */
-  public Navigator getNavigator() {
-    return navigator;
-  }
 
   /**
    * Adds a {@link Fragment} to this activity's layout.
@@ -65,15 +58,6 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
    */
   public Fragment getCurrentFragment(int containerId) {
     return getSupportFragmentManager().findFragmentById(containerId);
-  }
-
-  /**
-   * Get an Activity module for dependency injection.
-   *
-   * @return {@link ActivityModule}
-   */
-  protected ActivityModule getActivityModule() {
-    return new ActivityModule(this);
   }
 
   @Override

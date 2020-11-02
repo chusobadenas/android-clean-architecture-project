@@ -1,38 +1,24 @@
-/**
- * Copyright (C) 2014 android10.org. All rights reserved.
- *
- * @author Fernando Cejas (the android10 coder)
- */
 package com.chusobadenas.boilerplatecleanarchitecture.presentation.userlist;
 
 import android.content.Context;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import com.chusobadenas.boilerplatecleanarchitecture.R;
+import com.chusobadenas.boilerplatecleanarchitecture.databinding.FragmentUserListBinding;
 import com.chusobadenas.boilerplatecleanarchitecture.presentation.base.BaseMvpFragment;
 import com.chusobadenas.boilerplatecleanarchitecture.presentation.model.UserModel;
+import dagger.hilt.android.AndroidEntryPoint;
 
 import javax.inject.Inject;
 import java.util.*;
 
-/**
- * Fragment that shows a list of Users.
- */
+@AndroidEntryPoint
 public class UserListFragment extends BaseMvpFragment implements UserListMvpView {
 
-  /**
-   * Interface for listening user list events.
-   */
   public interface UserListListener {
 
     void onUserClicked(final UserModel userModel);
@@ -43,41 +29,36 @@ public class UserListFragment extends BaseMvpFragment implements UserListMvpView
   @Inject
   UsersAdapter usersAdapter;
 
-  @BindView(R.id.rv_users)
-  RecyclerView viewUsers;
-  @BindView(R.id.rl_progress)
-  RelativeLayout viewProgress;
-  @BindView(R.id.rl_retry)
-  RelativeLayout viewRetry;
-  @BindView(R.id.swipe_container)
-  SwipeRefreshLayout swipeRefresh;
-
+  private FragmentUserListBinding binding;
+  private ConstraintLayout viewProgress;
+  private ConstraintLayout viewRetry;
   private UserListListener userListListener;
-  private Unbinder unbinder;
 
-  /**
-   * Creates a new instance of a UserListFragment.
-   */
   public static UserListFragment newInstance() {
     return new UserListFragment();
   }
 
   @Override
-  public void onAttachToContext(Context context) {
-    super.onAttachToContext(context);
+  public void onAttach(@NonNull Context context) {
+    super.onAttach(context);
     if (context instanceof UserListListener) {
       userListListener = (UserListListener) context;
     }
   }
 
   @Override
-  public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-      Bundle savedInstanceState) {
-    View fragmentView = inflater.inflate(R.layout.fragment_user_list, container, false);
-    unbinder = ButterKnife.bind(this, fragmentView);
+  public View onCreateView(
+      @NonNull LayoutInflater inflater,
+      ViewGroup container,
+      Bundle savedInstanceState
+  ) {
+    binding = FragmentUserListBinding.inflate(inflater, container, false);
+
     userListPresenter.attachView(this);
+    setupViews();
     setupRecyclerView();
-    return fragmentView;
+
+    return binding.getRoot();
   }
 
   @Override
@@ -89,8 +70,7 @@ public class UserListFragment extends BaseMvpFragment implements UserListMvpView
   @Override
   public void onDestroyView() {
     super.onDestroyView();
-    viewUsers.setAdapter(null);
-    unbinder.unbind();
+    binding.rvUsers.setAdapter(null);
   }
 
   @Override
@@ -101,15 +81,15 @@ public class UserListFragment extends BaseMvpFragment implements UserListMvpView
 
   @Override
   public void showLoading() {
-    swipeRefresh.setVisibility(View.GONE);
-    swipeRefresh.setRefreshing(true);
+    binding.swipeContainer.setVisibility(View.GONE);
+    binding.swipeContainer.setRefreshing(true);
     viewProgress.setVisibility(View.VISIBLE);
   }
 
   @Override
   public void hideLoading() {
-    swipeRefresh.setVisibility(View.VISIBLE);
-    swipeRefresh.setRefreshing(false);
+    binding.swipeContainer.setVisibility(View.VISIBLE);
+    binding.swipeContainer.setRefreshing(false);
     viewProgress.setVisibility(View.GONE);
   }
 
@@ -137,28 +117,27 @@ public class UserListFragment extends BaseMvpFragment implements UserListMvpView
     }
   }
 
-  private void setupRecyclerView() {
-    usersAdapter.setOnItemClickListener(onItemClickListener);
-    viewUsers.setLayoutManager(new UsersLayoutManager(context()));
-    viewUsers.setAdapter(usersAdapter);
-
-    swipeRefresh.setColorSchemeResources(R.color.primary);
-    swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-      @Override
-      public void onRefresh() {
-        loadUserList();
-      }
-    });
+  private void setupViews() {
+    // Progress and retry
+    viewProgress = binding.getRoot().findViewById(R.id.rl_progress);
+    viewRetry = binding.getRoot().findViewById(R.id.rl_retry);
+    // Retry button
+    binding.getRoot().findViewById(R.id.bt_retry).setOnClickListener(view -> onButtonRetryClick());
   }
 
-  /**
-   * Loads all users.
-   */
+  private void setupRecyclerView() {
+    usersAdapter.setOnItemClickListener(onItemClickListener);
+    binding.rvUsers.setLayoutManager(new UsersLayoutManager(context()));
+    binding.rvUsers.setAdapter(usersAdapter);
+
+    binding.swipeContainer.setColorSchemeResources(R.color.primary);
+    binding.swipeContainer.setOnRefreshListener(this::loadUserList);
+  }
+
   private void loadUserList() {
     userListPresenter.initialize();
   }
 
-  @OnClick(R.id.bt_retry)
   void onButtonRetryClick() {
     loadUserList();
   }

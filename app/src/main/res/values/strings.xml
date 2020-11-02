@@ -21,7 +21,6 @@
   <string name="error_title_generic">Oops!</string>
 
   <!-- Main Activity -->
-  <string name="text_view">View</string>
-  <string name="text_collections">Collections</string>
+  <string name="text_view_detail">View detail</string>
   <string name="user_image_description">User image</string>
 </resources>

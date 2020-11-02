@@ -4,7 +4,6 @@ import com.chusobadenas.boilerplatecleanarchitecture.domain.interactor.DefaultSu
 import com.chusobadenas.boilerplatecleanarchitecture.domain.interactor.GetUserList;
 import com.chusobadenas.boilerplatecleanarchitecture.presentation.model.UserModel;
 import com.chusobadenas.boilerplatecleanarchitecture.presentation.model.UserModelDataMapper;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -26,7 +25,7 @@ public class UserListPresenterTest {
 
   @Before
   public void setUp() {
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
     userListPresenter = new UserListPresenter(getUserList, new UserModelDataMapper());
     userListPresenter.attachView(userListMvpView);
   }

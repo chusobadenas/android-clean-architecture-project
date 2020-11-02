@@ -2,14 +2,12 @@ package com.chusobadenas.boilerplatecleanarchitecture.common.util;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import androidx.core.content.ContextCompat;
-import androidx.appcompat.app.AlertDialog;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import com.chusobadenas.boilerplatecleanarchitecture.R;
 import com.chusobadenas.boilerplatecleanarchitecture.common.util.DialogFactory.DialogType;
-
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,15 +22,14 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ContextCompat.class, DialogFactory.class})
+@PrepareForTest({ ContextCompat.class, DialogFactory.class })
 public class DialogFactoryTest {
 
   private static final String TITLE = "Say hi";
@@ -49,7 +46,7 @@ public class DialogFactoryTest {
 
   @Before
   public void setUp() {
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
     PowerMockito.mockStatic(ContextCompat.class);
     PowerMockito.when(ContextCompat.getColor(context, R.color.accent)).thenReturn(0);
   }
@@ -72,7 +69,7 @@ public class DialogFactoryTest {
 
     try {
       PowerMock.expectNew(AlertDialog.Builder.class, context).andReturn(builder);
-      PowerMock.expectNew(ArrayAdapter.class, new Class[]{Context.class, int.class, List.class},
+      PowerMock.expectNew(ArrayAdapter.class, new Class[] { Context.class, int.class, List.class },
           context, R.layout.list_item_single_choice, items).andReturn(arrayAdapter);
 
       EasyMock.expect(builder.setTitle(null)).andReturn(builder);
